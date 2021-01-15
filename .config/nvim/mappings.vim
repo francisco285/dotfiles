@@ -34,6 +34,12 @@ vnoremap <leader>P "_dP
 " Centralize screen after using the } and { commands
 nnoremap { {zz
 nnoremap } }zz
+" https://github.com/tpope/vim-unimpaired/pull/164
+autocmd VimEnter * nnoremap <silent> [<Space> :<C-U>call append(line('.') - 1, repeat([''], v:count1))<CR>
+autocmd VimEnter * nnoremap <silent> ]<Space> :<C-U>call append(line('.'), repeat([''], v:count1))<CR>
+" Insert line above and below
+autocmd VimEnter * nnoremap <silent> []<space>
+    \ :<C-U>call append(line('.') - 1, repeat([''], v:count1))<bar>call append(line('.'), repeat([''], v:count1))<CR>
 " j and k behave better when wrap is set
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
