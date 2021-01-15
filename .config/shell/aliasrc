@@ -1,0 +1,173 @@
+#!/bin/sh
+
+alias ka='killall'
+alias x='exit'
+alias c='clear'
+alias b='bat'
+alias v='vim'
+alias nv='nvim'
+alias tm='tmux'
+alias z='zathura'
+alias e="$EDITOR"
+alias calcurse='calcurse -D ~/.config/calcurse'
+alias g='git'
+alias config="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+
+alias l='() {
+  if [[ $1 == "--hidden" ]]; then
+    ls -Ap | grep -v / | egrep "^\."
+  else
+    lsd -A -l -F $1
+  fi
+}'
+
+alias ldir='() {
+  if [[ $1 == "--hidden" ]]; then
+    ls -Ap | egrep "^\..*/$"
+  else
+    lsd -ld $1 */
+  fi
+}'
+
+alias lsdir='() {
+  if [[ $1 == "--hidden" ]]; then
+    ls -ap | egrep "^\..*/$"
+  else
+    lsd -d $1 */
+  fi
+}'
+
+alias rtouch='() {
+  if [[ $1 == "--help" ]]; then
+    echo rtouch foo/bar/file.txt is the same as doing mkdir -p foo/bar/ && cd foo/bar/ && touch file.txt
+  else
+    mkdir -p "$(dirname "$1")" && touch "$1"
+  fi
+}'
+
+alias lhidden='() {
+    ls -ap | grep -v / | egrep "^\."
+}'
+
+alias lshidden='() {
+    ls -ap | grep -v / | egrep "^\."
+}'
+
+alias countdown='() {
+    for i in `seq $1 -1 1` ; do echo -ne "\r$i " ; sleep 1 ; done
+}'
+
+alias timer='() {
+    for i in `seq 1 1 $1` ; do echo -ne "\r$i " ; sleep 1 ; done
+}'
+
+alias 255colors='() {
+    for i in {0..255}; do  printf "\x1b[38;5;${i}mcolor%-5i\x1b[0m" $i ; if ! (( ($i + 1 ) % 8 )); then echo ; fi ; done
+}'
+
+alias tmbg='() {
+  case $1 in
+    transparent)
+        tmux set -g window-active-style "bg=default"
+        tmux set -g window-style "bg=default"
+        tmux set-window-option -g pane-border-style fg=#151520
+        tmux set-option -g pane-border-style fg=colour235,bg=default
+        tmux set-option -g pane-active-border-style fg=colour240,bg=default
+        tmux set-option -g status-style bg=default
+      ;;
+    vim-material)
+        tmux set -g window-active-style "bg=colour0"
+        tmux set -g window-style "bg=#151520"
+        tmux set-window-option -g pane-border-style fg=#909090
+        # tmux set-option -g status-style fg=#202020,bg=#151520
+        tmux set-option -g status-style fg=#202020,bg=#000000
+        tmux set-option -g pane-border-style fg=colour235,bg=#151520
+        tmux set-option -g pane-active-border-style fg=colour240,bg=#151520
+      ;;
+    gruvbox)
+        tmux set -g window-active-style "bg=colour0"
+        tmux set -g window-style "bg=#191919"
+        tmux set-window-option -g pane-border-style fg=#909090
+        # tmux set-option -g status-style fg=#202020,bg=#191919
+        tmux set-option -g status-style fg=#202020,bg=#000000
+        tmux set-option -g pane-border-style fg=colour235,bg=#191919
+        tmux set-option -g pane-active-border-style fg=colour240,bg=#191919
+      ;;
+    *)
+      echo $1 is not a valid option.
+      ;;
+  esac
+}'
+
+# alias config='() {
+#   case $1 in
+#     zprofile)
+#       $EDITOR ~/.zprofile
+#       ;;
+#     aliases)
+#       $EDITOR ~/.config/shell/aliasrc
+#       ;;
+#     zsh)
+#       $EDITOR ~/.config/zsh/.zshrc
+#       ;;
+#     vim)
+#       $EDITOR ~/.vimrc
+#       ;;
+#     nvim)
+#       $EDITOR ~/.config/nvim/init.vim
+#       ;;
+#     coc)
+#       $EDITOR ~/.config/nvim/coc-settings.json
+#       ;;
+#     tmux)
+#       $EDITOR ~/.tmux.conf
+#       ;;
+#     kitty)
+#       $EDITOR ~/.config/kitty/kitty.conf
+#       ;;
+#     i3)
+#       $EDITOR ~/.config/i3/config
+#       ;;
+#     bspwm)
+#       $EDITOR ~/.config/bspwm/bspwmrc
+#       ;;
+#     sxhkd)
+#       $EDITOR ~/.config/sxhkd/sxhkdrc
+#       ;;
+#     rofi)
+#       $EDITOR ~/.config/rofi/config
+#       ;;
+#     polybar)
+#       $EDITOR ~/.config/polybar/config
+#       ;;
+#     dunst)
+#       $EDITOR ~/.config/dunst/dunstrc
+#       ;;
+#     lf)
+#       $EDITOR ~/.config/lf/lfrc
+#       ;;
+#     picom)
+#       $EDITOR ~/.config/picom/picom.conf
+#       ;;
+#     *)
+#       echo $1 is not a dotfile.
+#       ;;
+#   esac
+# }'
+
+# alias cg='config'
+
+lfcd() {
+  LF_SHELLCD_TEMPDIR="$(mktemp -d -t lf-shellcd-XXXXXX)"
+  export LF_SHELLCD_TEMPDIR
+  lf -last-dir-path "$LF_SHELLCD_TEMPDIR/lastdir" \
+    -command "source '$HOME/.config/lf/lfrc-shellcd'" "$@"
+  if [ -e "$LF_SHELLCD_TEMPDIR/changecwd" ] && \
+    dir="$(cat "$LF_SHELLCD_TEMPDIR/lastdir")" 2>/dev/null; then
+    cd "$dir"
+  fi
+  rm -rf "$LF_SHELLCD_TEMPDIR"
+  unset LF_SHELLCD_TEMPDIR
+}
+
+alias lf=lfcd

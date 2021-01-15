@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# pin screenshot
+# take a screenshot of an area of the screen and pin it as a floating window
+
+cd '/tmp'
+dest=$(mktemp XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX)
+rm $dest
+dest="/tmp/${dest}"
+mkdir "$dest"
+
+flameshot gui --raw --path "$dest"
+nohup feh -x "$dest" >/dev/null 2>&1 &
+sleep 0.2
+bspc node -t floating

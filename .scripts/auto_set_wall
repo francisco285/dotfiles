@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# automatically change wallpaper periodically after some time
+
+while true
+do
+  feh --randomize --bg-scale ~/Desktop/Wallpapers-ChrisAtMachine/* &>/dev/null &
+  sleep 300
+done

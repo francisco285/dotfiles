@@ -1,0 +1,4 @@
+cmd quitcd ${{
+  echo "1" > "$LF_SHELLCD_TEMPDIR/changecwd"
+  lf -remote "send $id quit"
+}}

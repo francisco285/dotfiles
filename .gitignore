@@ -1,0 +1,61 @@
+# blacklist everything
+*
+
+# whitelist .gitignore (this file)
+!.gitignore
+
+# whitelist these folders indide $HOME
+!.scripts/
+!.scripts/*
+
+# whitelist these files inside $HOME
+!.bashrc
+!.tmux.conf
+!.vimrc
+!.Xresources
+!.zprofile
+
+# whitelist .config (and everything inside it)
+!.config/
+
+# blacklist everything inside .config
+.config/*
+
+# whitelist these folders inside .config
+!.config/bspwm/
+!.config/bspwm/*
+!.config/calcurse/
+!.config/calcurse/*
+!.config/dunst/
+!.config/dunst/*
+!.config/i3/
+!.config/i3/*
+!.config/kitty/
+!.config/kitty/*
+!.config/lf/
+!.config/lf/*
+!.config/nvim/
+!.config/nvim/*
+!.config/picom/
+!.config/picom/*
+!.config/polybar/
+!.config/polybar/*
+!.config/rofi/
+!.config/rofi/*
+!.config/shell/
+!.config/shell/*
+!.config/sxhkd/
+!.config/sxhkd/*
+!.config/sxiv/exec/
+!.config/sxiv/exec/*
+!.config/zathura/
+!.config/zathura/*
+
+!.config/zsh/
+.config/zsh/*
+!.config/zsh/.zsh-theme
+!.config/zsh/.zshrc
+
+# whitelist these files inside .config
+!.config/mimeapps.list
+!.config/user-dirs.dirs

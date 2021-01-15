@@ -1,0 +1,120 @@
+# vim: ft=cfg
+rofi.color-enabled: true
+rofi.color-window: argb:DD000000, argb:cc2f343f, argb:cc2f343f
+rofi.color-normal: argb:002f343f, #d8dee8, argb:002f343f, #2f343f, #ffffff
+# rofi.modi:                           window,run,ssh,drun
+rofi.modi:                           window,run,drun
+rofi.hide-scrollbar: false
+rofi.separator-style: solid
+rofi.bw: 0
+# rofi.padding: 250
+rofi.eh: 1
+rofi.sort: true
+rofi.sorting-method: fzf
+rofi.sidebar-mode: true
+rofi.lines: 15
+rofi.scrollbar-width: 4
+rofi.line-margin: 08
+
+# (normal, regex, glob, fuzzy)
+rofi.matching: fuzzy
+# (0: Page, 1: Centered)
+rofi.scroll-method: 1
+# w (desktop name), t (title), n (name), r (role), c (class)
+rofi.window-format: {c}  │  {t}
+# "The display name of this browser" Set from: Default
+rofi.display-window:                 Window
+# rofi.display-windowcd:               
+rofi.display-run:                    Command
+# rofi.display-ssh:                    
+# rofi.display-drun:                   
+# rofi.display-combi:                  
+# rofi.display-keys:                   
+
+# ! "Beginning of line" Set from: Default
+# ! rofi.kb-move-front:                  Control+a
+# ! "End of line" Set from: Default
+# ! rofi.kb-move-end:                    Control+e
+# ! "Move back one word" Set from: Default
+# ! rofi.kb-move-word-back:              Alt+b,Control+Left
+# ! "Move forward one word" Set from: Default
+# ! rofi.kb-move-word-forward:           Alt+f,Control+Right
+# ! "Move back one char" Set from: Default
+# ! rofi.kb-move-char-back:              Left,Control+b
+# ! "Move forward one char" Set from: Default
+# ! rofi.kb-move-char-forward:           Right,Control+f
+# ! "Delete next char" Set from: Default
+# ! rofi.kb-remove-char-forward:         Delete,Control+d
+# ! "Delete till the start of line" Set from: Default
+# ! rofi.kb-remove-to-sol:               Control+u
+
+# ! "Accept entry" Set from: Default
+# ! rofi.kb-accept-entry:                Control+j,Control+m,Return,KP_Enter
+rofi.kb-accept-entry: Control+m,Return,KP_Enter
+
+# ! "Use entered text as command (in ssh/run modi)" Set from: Default
+# ! rofi.kb-accept-custom:               Control+Return
+# ! "Use alternate accept command." Set from: Default
+# ! rofi.kb-accept-alt:                  Shift+Return
+# ! "Delete entry from history" Set from: Default
+# ! rofi.kb-delete-entry:                Shift+Delete
+# ! "Switch to the next mode."
+
+# ! "Go to next row, if one left, accept it, if no left next mode." Set from: Default
+rofi.kb-row-tab: ,
+
+# rofi.kb-mode-next: Alt+n,Shift+Right,Control+Tab
+rofi.kb-mode-next: Control+bracketright,Shift+Right
+# ! "Switch to the previous mode."
+rofi.kb-mode-previous: Control+bracketleft,Shift+Left
+rofi.kb-cancel: Escape
+
+# ! "Delete till the end of line" Set from: Default
+# rofi.kb-remove-to-eol:               Control+k
+rofi.kb-remove-to-eol: ,
+
+# ! "Select previous entry" Set from: Default
+rofi.kb-row-up:                      Up,Control+p,Control-k,Alt+k
+# ! "Select next entry" Set from: Default
+rofi.kb-row-down:                    Down,Control+n,Control-j,Alt+j
+
+# ! "Font to use"
+rofi.font:                           mono 14
+
+# ! "Whether to load and show icons" Set from: Default
+rofi.show-icons:                     true
+# ! "Theme to use to look for icons" Set from: Default
+# ! rofi.icon-theme:                     
+
+# ! "Disable history in run/ssh" Set from: Default
+# ! rofi.disable-history:                false
+
+# ! "Set selected item as input text" Set from: Default
+# ! rofi.kb-row-select:                  Control+space
+
+# ! "Take a screenshot of the rofi window" Set from: Default
+# ! rofi.kb-screenshot:                  Alt+S
+
+# ! "Quit rofi" Set from: Default
+# ! rofi.kb-cancel:                      Escape,Control+g,Control+bracketleft
+
+# ! "Select row 1"
+rofi.kb-select-1: ,
+# ! "Select row 2"
+rofi.kb-select-2: ,
+# ! "Select row 3"
+rofi.kb-select-3: ,
+# ! "Select row 4"
+rofi.kb-select-4: ,
+# ! "Select row 5"
+rofi.kb-select-5: ,
+# ! "Select row 6"
+rofi.kb-select-6: ,
+# ! "Select row 7"
+rofi.kb-select-7: ,
+# ! "Select row 8"
+rofi.kb-select-8: ,
+# ! "Select row 9"
+rofi.kb-select-9: ,
+# ! "Select row 10"
+rofi.kb-select-10: ,

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+NEW_NAME="$(rofi -dmenu -lines 0 -p 'Workspace name' --theme-str '#window { fullscreen: true }' | sed -r 's/^\s+//;s/\s+$//')"
+
+if [ "$NEW_NAME" != "" ]; then
+  bspc desktop -n "- $NEW_NAME"
+else
+  bspc desktop -n ""
+fi

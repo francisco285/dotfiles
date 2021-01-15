@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Change screen brightness
+
+shopt -s nocasematch
+case $1 in
+  'up')
+    brightnessctl --min-value=1 s 5%+
+    ;;
+  'down')
+    brightnessctl --min-value=1 s 5%-
+    ;;
+  '')
+    while true
+    do
+      PERCENTAGE=$(rofi -dmenu -lines 0 -p 'New brightness (%)')
+      PERCENTAGE=${PERCENTAGE%%.*}
+      PERCENTAGE=$(echo $PERCENTAGE | sed -r 's/^\s+//;s/\s+$//')
+      case $PERCENTAGE in
+        '')
+          exit 0
+          ;;
+        *[!0-9]*)
+          PERCENTAGE="-1"
+          ;;
+      esac
+      if (($PERCENTAGE <= "0")) || (($PERCENTAGE > "100"))
+      then
+        notify-send "Invalid input, try again."
+        continue
+      else
+        brightnessctl --min-value=1 s "${PERCENTAGE}%"
+        notify-send "Brightness set to ${PERCENTAGE}%" "CUR/MAX - $(brightnessctl g)/$(brightnessctl m)"
+        exit 0
+        break
+      fi
+    done
+  ;;
+esac

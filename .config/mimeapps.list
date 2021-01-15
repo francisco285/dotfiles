@@ -1,0 +1,9 @@
+[Default Applications]
+application/x-shellscript=nvim.desktop;
+text/plain=nvim.desktop;
+text/css=nvim.desktop;
+text/x-python=nvim.desktop;
+application/javascript=nvim.desktop;
+text/markdown=nvim.desktop;
+application/pdf=zathura-usercreated-1.desktop;
+text/html=brave-browser.desktop;

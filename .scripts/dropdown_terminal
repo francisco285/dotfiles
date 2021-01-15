@@ -1,0 +1,13 @@
+#!/bin/bash
+
+SCREEN_WIDTH=$(xrandr --current | grep '*' | sed -r 's/x/ /' | awk '{print $1}' | sed -r 's/[^0-9]//g')
+SCREEN_HEIGHT=$(xrandr --current | grep '*' | sed -r 's/x/ /' | awk '{print $2}' | sed -r 's/[^0-9]//g')
+
+TERMINAL_WIDTH=$(( $SCREEN_WIDTH * 75/100 ))
+TERMINAL_HEIGHT=$(( $SCREEN_HEIGHT * 75/100 ))
+
+TERMINAL_POSITION_X=$(( $(( $SCREEN_WIDTH - $TERMINAL_WIDTH )) / 2 ))
+TERMINAL_POSITION_y=$(( $(( $SCREEN_HEIGHT - $TERMINAL_HEIGHT )) / 2 ))
+
+tdrop -ma -w "${TERMINAL_WIDTH}" -h "${TERMINAL_HEIGHT}" -x "${TERMINAL_POSITION_X}" -y "${TERMINAL_POSITION_y}" \
+  kitty sh -c 'tmux'
