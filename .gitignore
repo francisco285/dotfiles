@@ -36,6 +36,11 @@
 !.config/lf/*
 !.config/nvim/
 !.config/nvim/*
+!.config/nvim/scripts/*
+!.config/nvim/scripts/others/*
+!.config/nvim/scripts/personal/*
+!.config/nvim/themes/*
+!.config/nvim/plugins/*
 !.config/picom/
 !.config/picom/*
 !.config/polybar/
