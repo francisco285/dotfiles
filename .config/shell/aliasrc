@@ -12,6 +12,7 @@ alias e="$EDITOR"
 alias calcurse='calcurse -D ~/.config/calcurse'
 alias g='git'
 alias config="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+alias cg='config'
 
 alias l='() {
   if [[ $1 == "--hidden" ]]; then
