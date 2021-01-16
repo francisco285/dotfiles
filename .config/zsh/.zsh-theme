@@ -55,9 +55,14 @@ function -report-start-time() {
     else
       SECS="$((~~$SECS))s"
     fi
-    ELAPSED="${ELAPSED}${SECS}"
 
-    export __exec_time="$fg_bold[white]$FG[105]${ELAPSED}%{$reset_color%}%f"
+    if [[ ${DELTA} -lt 3 ]]
+    then
+      export __exec_time=''
+    else
+      ELAPSED="${ELAPSED}${SECS}"
+      export __exec_time="$fg_bold[white]$FG[105]${ELAPSED}%{$reset_color%}%f"
+    fi
 
     unset ZSH_START_TIME
   fi
