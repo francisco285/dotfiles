@@ -60,8 +60,6 @@ function -report-start-time() {
     export __exec_time="$fg_bold[white]$FG[105]${ELAPSED}%{$reset_color%}%f"
 
     unset ZSH_START_TIME
-  else
-    # export RPROMPT="$RPROMPT_BASE"
   fi
 }
 add-zsh-hook precmd -report-start-time
