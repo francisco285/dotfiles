@@ -28,7 +28,7 @@ source ~/.config/nvim/plugins/coc.vim
 " source ~/.config/nvim/plugins/vim-prettier.vim
 " source ~/.config/nvim/plugins/vim-extended-ft.vim
 " source ~/.config/nvim/plugins/lexima.vim
-" source ~/.config/nvim/plugins/vim-maximizer.vim
+source ~/.config/nvim/plugins/vim-maximizer.vim
 " source ~/.config/nvim/plugins/vim-highlightedyank.vim
 source ~/.config/nvim/plugins/vim-gitgutter.vim
 source ~/.config/nvim/plugins/floaterm.vim
