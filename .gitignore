@@ -7,6 +7,10 @@
 # whitelist these folders indide $HOME
 !.scripts/
 !.scripts/*
+!.local
+!.local/*
+!.local/share/applications
+!.local/share/applications/*
 
 # whitelist these files inside $HOME
 !.bashrc
