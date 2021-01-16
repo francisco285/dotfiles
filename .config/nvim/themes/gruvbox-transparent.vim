@@ -42,8 +42,6 @@ augroup WindowManagement
   autocmd!
   autocmd BufEnter,WinEnter,FocusGained * setlocal cursorline colorcolumn=79,80
   autocmd BufLeave,WinLeave,FocusLost   * setlocal nocursorline colorcolumn=
-  autocmd InsertEnter * set nocursorline
-  autocmd InsertLeave * set cursorline
 augroup END
 
 let g:transparency_enabled = 1

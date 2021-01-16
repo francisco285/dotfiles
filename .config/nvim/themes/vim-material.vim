@@ -40,8 +40,6 @@ augroup WindowManagement
   autocmd!
   autocmd BufEnter,WinEnter,FocusGained * call s:setActiveWindow()
   autocmd BufLeave,WinLeave,FocusLost   * call s:setInactiveWindow()
-  autocmd InsertEnter * set nocursorline
-  autocmd InsertLeave * set cursorline
   " Fix cmdline colors when vim gains/loses focus
   autocmd FocusGained * hi Normal guibg=#000000
   autocmd FocusLost   * hi Normal guibg=#151520

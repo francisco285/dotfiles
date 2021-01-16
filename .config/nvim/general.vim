@@ -59,6 +59,7 @@ set nobackup
 set undodir=~/.nvim/undo
 set undofile
 set guioptions-=mTrL
+set cursorline
 
 command! W w
 autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
