@@ -47,7 +47,6 @@ Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 " Plug 'ap/vim-css-color'
 " Plug 'machakann/vim-highlightedyank'
 " Plug 'ratheesh/vim-extended-ft'
-" Plug 'mboughaba/i3config.vim'
 " Plug 'junegunn/vim-slash'
 " Plug 'justinmk/vim-gtfo'
 
