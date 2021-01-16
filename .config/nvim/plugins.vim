@@ -48,6 +48,5 @@ Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 " Plug 'machakann/vim-highlightedyank'
 " Plug 'ratheesh/vim-extended-ft'
 " Plug 'junegunn/vim-slash'
-" Plug 'justinmk/vim-gtfo'
 
 call plug#end()

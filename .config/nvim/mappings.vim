@@ -84,6 +84,17 @@ cnoremap <c-space> <c-r>=expand('%:p:h')<cr>/
 " Show completion options
 cnoremap <expr> <c-d> getcmdpos()>strlen(getcmdline())?"\<lt>C-D>":"\<lt>Del>"
 
+nnoremap <silent> got :call <sid>open_dir_on_tmux(expand('%:p:h'))<cr>
+nnoremap <silent> goT :call <sid>open_dir_on_tmux(getcwd())<cr>
+
+function! s:open_dir_on_tmux(dir) abort
+  if exists('$TMUX')
+    call system('tmux split -h -c ' . a:dir)
+  else
+    echohl Error | echo 'Not inside tmux' | echohl None
+  endif
+endfunction
+
 " Zen mode for focus
 nnoremap <silent> <Leader>z :call <SID>toggleZenMode()<CR>
 
