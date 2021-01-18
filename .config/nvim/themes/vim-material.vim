@@ -22,17 +22,13 @@ augroup CUSTOM_COLORS
     autocmd VimEnter * hi TabLineFill guifg=#000000
     autocmd VimEnter * hi TabLineSel guibg=#61AFEF guifg=black
     autocmd VimEnter * hi VertSplit guibg=#7199EE guifg=#181A1F
-    autocmd VimEnter * hi ActiveWindow guibg=#000000
-    autocmd VimEnter * hi InactiveWindow guibg=#151520
 augroup END
 
 function s:setActiveWindow()
-  setlocal winhighlight=Normal:ActiveWindow,SignColumn:ActiveWindow
   setlocal cursorline colorcolumn=79,80
 endfunction
 
 function s:setInactiveWindow()
-  setlocal winhighlight=Normal:InactiveWindow,SignColumn:InactiveWindow
   setlocal nocursorline colorcolumn=
 endfunction
 
@@ -40,9 +36,6 @@ augroup WindowManagement
   autocmd!
   autocmd BufEnter,WinEnter,FocusGained * call s:setActiveWindow()
   autocmd BufLeave,WinLeave,FocusLost   * call s:setInactiveWindow()
-  " Fix cmdline colors when vim gains/loses focus
-  autocmd FocusGained * hi Normal guibg=#000000
-  autocmd FocusLost   * hi Normal guibg=#151520
 augroup END
 
 " PLUGINS =====================================================================
