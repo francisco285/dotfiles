@@ -19,7 +19,7 @@ source ~/.config/nvim/themes/vim-material-transparent.vim
 
 source ~/.config/nvim/tmux.vim
 
-" source ~/.config/nvim/plugins/vim-rainbow.vim
+source ~/.config/nvim/plugins/vim-rainbow.vim
 source ~/.config/nvim/plugins/netrw.vim
 source ~/.config/nvim/plugins/undotree.vim
 source ~/.config/nvim/plugins/vim-visual-multi.vim
