@@ -12,10 +12,7 @@ source ~/.config/nvim/plugins.vim
 source ~/.config/nvim/autocommands.vim
 source ~/.config/nvim/mappings.vim
 
-" source ~/.config/nvim/themes/gruvbox.vim
-" source ~/.config/nvim/themes/gruvbox-transparent.vim
-" source ~/.config/nvim/themes/vim-material.vim
-source ~/.config/nvim/themes/vim-material-transparent.vim
+source ~/.config/nvim/theme.vim
 
 source ~/.config/nvim/tmux.vim
 
