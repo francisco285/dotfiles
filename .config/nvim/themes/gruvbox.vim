@@ -40,9 +40,6 @@ function s:setInactiveWindow()
   setlocal nocursorline colorcolumn=
 endfunction
 
-highlight OverLength ctermbg=red ctermfg=black guibg=#fb4934 guifg=lightgrey
-autocmd BufEnter,WinEnter * match OverLength /\%121v.\+/
-
 augroup WindowManagement
   autocmd!
   autocmd BufEnter,WinEnter,FocusGained * call s:setActiveWindow()
