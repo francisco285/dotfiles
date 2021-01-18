@@ -59,6 +59,8 @@
 !.config/sxiv/exec/*
 !.config/zathura/
 !.config/zathura/*
+!.config/mpv
+!.config/mpv/input.conf
 
 !.config/zsh/
 .config/zsh/*
