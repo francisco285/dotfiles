@@ -25,17 +25,12 @@ source ~/.config/nvim/plugins/undotree.vim
 source ~/.config/nvim/plugins/vim-visual-multi.vim
 source ~/.config/nvim/plugins/vim-anyfold.vim
 source ~/.config/nvim/plugins/coc.vim
-" source ~/.config/nvim/plugins/vim-prettier.vim
-" source ~/.config/nvim/plugins/vim-extended-ft.vim
 source ~/.config/nvim/plugins/lexima.vim
 source ~/.config/nvim/plugins/vim-maximizer.vim
-" source ~/.config/nvim/plugins/vim-highlightedyank.vim
 source ~/.config/nvim/plugins/vim-gitgutter.vim
 source ~/.config/nvim/plugins/floaterm.vim
 source ~/.config/nvim/plugins/pickachu.vim
-" source ~/.config/nvim/plugins/editorconfig-vim.vim
 source ~/.config/nvim/plugins/vim-fugitive.vim
 source ~/.config/nvim/plugins/telescope.vim
 source ~/.config/nvim/plugins/lightline.vim
 source ~/.config/nvim/plugins/lightline-bufferline.vim
-" source ~/.config/nvim/plugins/indentLine.vim
