@@ -51,12 +51,6 @@ augroup END
 
 " PLUGINS =====================================================================
 
-" dashboard-nvim {{{
-autocmd VimEnter * highlight DashboardHeader guifg=#fe8019
-autocmd VimEnter * highlight DashboardCenter guifg=#FABD2F
-autocmd VimEnter * highlight DashboardFooter guifg=#fe8019
-" dashboard-nvim }}}
-
 " lightline.vim {{{
 if !exists('g:lightline')
   let g:lightline = {}
