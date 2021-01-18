@@ -30,12 +30,10 @@ endfunction
 
 " coc explorer {{{
 nnoremap <silent> <leader>e :CocCommand explorer<CR>
-nnoremap <silent> <leader>E :call <sid>foo()<CR>
-function! s:foo() abort
-  exe ":CocCommand explorer " . getcwd()
-endfunction
+nnoremap <silent> <leader>E :exe ":CocCommand explorer " . getcwd()<cr>
+
 " Deleting the coc-explorer buffer would lead to annoying bugs
-" Also, unmap wouldn't fit here because it would trigger d action for coc-explorer (delete file)
+" Also, unmap wouldn't fit here because it would trigger the 'd' action (delete file)
 autocmd FileType coc-explorer nnoremap <buffer> <leader>d <Nop>
 
 autocmd FileType coc-explorer set number relativenumber
@@ -44,7 +42,7 @@ autocmd FileType coc-explorer set number relativenumber
 nmap <leader>r <Plug>(coc-rename)
 nnoremap <leader>R :CocSearch <C-R>=expand("<cword>")<CR><CR>
 
-" use <C-space> for triggering completion menu
+" use <C-space> to trigger completion menu
 inoremap <silent> <expr> <C-space> coc#refresh()
 
 " Use ;; to expand a snippet without having to wait for the pop up menu to show up
