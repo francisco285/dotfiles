@@ -64,9 +64,9 @@ rofi.kb-accept-entry: Control+m,Return,KP_Enter
 rofi.kb-row-tab: ,
 
 # rofi.kb-mode-next: Alt+n,Shift+Right,Control+Tab
-rofi.kb-mode-next: Control+bracketright,Shift+Right
+rofi.kb-mode-next: Control+bracketright,Alt+bracketright,Shift+Right
 # ! "Switch to the previous mode."
-rofi.kb-mode-previous: Control+bracketleft,Shift+Left
+rofi.kb-mode-previous: Control+bracketleft,Alt+bracketleft,Shift+Left
 rofi.kb-cancel: Escape
 
 # ! "Delete till the end of line" Set from: Default
