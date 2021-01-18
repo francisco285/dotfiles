@@ -33,7 +33,6 @@ source ~/.config/nvim/plugins/vim-maximizer.vim
 source ~/.config/nvim/plugins/vim-gitgutter.vim
 source ~/.config/nvim/plugins/floaterm.vim
 " source ~/.config/nvim/plugins/pickachu.vim
-source ~/.config/nvim/plugins/dashboard-nvim.vim
 " source ~/.config/nvim/plugins/editorconfig-vim.vim
 source ~/.config/nvim/plugins/vim-fugitive.vim
 source ~/.config/nvim/plugins/telescope.vim
