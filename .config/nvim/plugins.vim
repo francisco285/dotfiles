@@ -36,11 +36,11 @@ Plug 'tpope/vim-surround'
 Plug 'puremourning/vimspector'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'cohama/lexima.vim'
+Plug 'DougBeney/pickachu'
 
 " Plug 'glepnir/dashboard-nvim'
 " Plug 'metakirby5/codi.vim'
 " Plug 'editorconfig/editorconfig-vim'
-" Plug 'DougBeney/pickachu'
 " Plug 'Yggdroot/indentLine'
 " Plug 'AndrewRadev/tagalong.vim'
 " Plug 'alvan/vim-closetag'
