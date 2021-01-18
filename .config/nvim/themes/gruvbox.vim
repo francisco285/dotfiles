@@ -28,20 +28,6 @@ augroup CUSTOM_COLORS
   autocmd VimEnter * hi VertSplit guibg=NONE guifg=#fb4934
 augroup END
 
-function s:setActiveWindow()
-  setlocal cursorline colorcolumn=79,80
-endfunction
-
-function s:setInactiveWindow()
-  setlocal nocursorline colorcolumn=
-endfunction
-
-augroup WindowManagement
-  autocmd!
-  autocmd BufEnter,WinEnter,FocusGained * call s:setActiveWindow()
-  autocmd BufLeave,WinLeave,FocusLost   * call s:setInactiveWindow()
-augroup END
-
 " PLUGINS =====================================================================
 
 " lightline.vim {{{

@@ -26,12 +26,6 @@ augroup CUSTOM_COLORS
   autocmd VimEnter * hi VertSplit guibg=#7199EE guifg=#181A1F
 augroup END
 
-augroup WindowManagement
-  autocmd!
-  autocmd BufEnter,WinEnter,FocusGained * setlocal cursorline colorcolumn=79,80
-  autocmd BufLeave,WinLeave,FocusLost   * setlocal nocursorline colorcolumn=
-augroup END
-
 let g:transparency_enabled = 1
 
 " PLUGINS =====================================================================
