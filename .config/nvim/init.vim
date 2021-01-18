@@ -23,7 +23,7 @@ source ~/.config/nvim/plugins/vim-rainbow.vim
 source ~/.config/nvim/plugins/netrw.vim
 source ~/.config/nvim/plugins/undotree.vim
 source ~/.config/nvim/plugins/vim-visual-multi.vim
-" source ~/.config/nvim/plugins/vim-anyfold.vim
+source ~/.config/nvim/plugins/vim-anyfold.vim
 source ~/.config/nvim/plugins/coc.vim
 " source ~/.config/nvim/plugins/vim-prettier.vim
 " source ~/.config/nvim/plugins/vim-extended-ft.vim
