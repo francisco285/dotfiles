@@ -35,11 +35,15 @@ super + b
 super + shift + b
 	brave-browser --incognito
 
-# -- Emoji selector -- #
+# -- Emoji selector (rofimoji) -- #
+# NOTE: escaping brackets is only necessary in this file
 super + i
 	rofimoji --prompt Emoji --max=0 --rofi-args "-theme-str '#window \{ fullscreen: true; padding: 20%; \}'" &!
 
-# rofi -show drun -show-icons -display-drun "Program" 
+# -- Character selector (rofimoji) -- #
+# NOTE: escaping brackets is only necessary in this file
+super + alt + i
+	rofimoji --file all --prompt Character --max=0 --rofi-args "-theme-str '#window \{ fullscreen: true; padding: 20%; \}'" &!
 
 # -- Show clipboard contents -- #
 super + Insert
