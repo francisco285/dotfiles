@@ -1,0 +1,4 @@
+#!/bin/sh
+MANUAL=$(man -k . | rofi -dmenu -p 'Manual Selector' -theme-str '#window { fullscreen: true; padding: 20%; }' -matching 'regex' | awk '{print $1}')
+
+echo $MANUAL | xargs -r man -Tpdf | zathura -

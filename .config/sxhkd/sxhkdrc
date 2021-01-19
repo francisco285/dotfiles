@@ -45,6 +45,11 @@ super + i
 super + alt + i
 	rofimoji --file all --prompt Character --max=0 --rofi-args "-theme-str '#window \{ fullscreen: true; padding: 20%; \}'" &!
 
+# -- Manual selector -- #
+# NOTE: escaping brackets is only necessary in this file
+super + alt + m
+	manual_selector
+
 # -- Show clipboard contents -- #
 super + Insert
 	notify-send "📋 Clipboard contents:" "$(xclip -o -selection clipboard)"
