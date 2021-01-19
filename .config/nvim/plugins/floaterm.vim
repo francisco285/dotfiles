@@ -29,8 +29,17 @@ tnoremap <silent> <c-space>j <c-\><c-n>:FloatermFirst<CR>
 tnoremap <silent> <c-space>k <c-\><c-n>:FloatermLast<CR>
 tnoremap <silent> <c-space>l <c-\><c-n>:FloatermNext<CR>
 
-autocmd FileType javascript nnoremap <silent> <buffer> <F21> :<c-u>echo "Running '<c-r>=expand("%:t")<cr>'..." <bar> FloatermNew --title=Node.js --autoclose=0 node\ <c-r>=expand('%:p')<cr><cr>
-autocmd FileType python nnoremap <silent> <buffer> <F21> :<c-u>echo "Running '<c-r>=expand("%:t")<cr>'..." <bar> FloatermNew --title=Python\ 3.8 --autoclose=0 python3.8\ <c-r>=expand('%:p')<cr><cr>
+nnoremap <silent> <F21> :<c-u>call <sid>run()<cr>
+
+function! s:run() abort
+  if &filetype == 'javascript'
+    execute "FloatermNew --title=Node.js --autoclose=0 node " . shellescape('%')
+  elseif &filetype == 'python'
+    execute "FloatermNew --title=Python --autoclose=0 python3.8 " . shellescape('%')
+  elseif &filetype == 'cpp'
+    execute "FloatermNew --title=C++ --autoclose=0 g++ " . shellescape(expand('%')) . ' -o ' . shellescape(expand('%:r')) . ' && ./' . shellescape(expand('%:r'))
+  endif
+endfunction
 
 nnoremap <silent> <leader>o :FloatermNew --height=0.8 --width=0.8 lf<cr>
 nnoremap <silent> <leader>O :execute 'FloatermNew --height=0.8 --width=0.8 lf'. ' ' . getcwd()<cr>

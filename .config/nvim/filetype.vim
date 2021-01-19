@@ -1,8 +1,18 @@
-autocmd FileType javascript nnoremap <silent> <buffer> <F9> :<c-u>echo "Running <c-r>=expand('%:t')<cr>..." <bar> !node <c-r>=expand('%:p')<cr><cr>
-autocmd FileType python nnoremap <silent> <buffer> <F9> :<c-u>echo "Running <c-r>=expand('%:t')<cr>..." <bar> !python3.8 <c-r>=expand('%:p')<cr><cr>
 autocmd FileType html,vim set matchpairs+=<:>
 autocmd FileType help set relativenumber
 autocmd FileType help set number
+
+nnoremap <silent> <F9> :call <sid>run()<cr>
+
+function! s:run() abort
+  if &filetype == 'javascript'
+    execute "!node " . expand('%:p')
+  elseif &filetype == 'python'
+    execute "!python3.8 " . expand('%:p')
+  elseif &filetype == 'cpp'
+    execute '!g++ ' . shellescape('%') . ' -o ' . shellescape('%:r') . ' && ./' . shellescape('%:r')
+  endif
+endfunction
 
 augroup text_abbreviations
   autocmd!
