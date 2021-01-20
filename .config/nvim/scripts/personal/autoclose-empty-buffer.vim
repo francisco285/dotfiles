@@ -33,6 +33,7 @@ endfunction
 
 autocmd VimEnter * autocmd BufEnter * call s:deleteEmptyBuffer()
 autocmd VimEnter * autocmd BufLeave * call s:setBufLeave()
+autocmd VimEnter * call s:setBufLeave()
 
 function! s:setBufLeave() abort
   let g:PreviousBufferHasNoName = bufname('%') ==? ''
