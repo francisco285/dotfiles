@@ -4,7 +4,7 @@ let mapleader = "\<Space>"
   inoremap ç <Esc>
   cnoremap ç <C-c>
   vnoremap ç <Esc>
-  nnoremap <silent> ç :echo<cr> 
+  nnoremap <silent> ç :echo<cr>
   inoremap Ç <Esc>
   cnoremap Ç <C-c>
   vnoremap Ç <Esc>
