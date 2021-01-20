@@ -1,6 +1,5 @@
 source ~/.config/nvim/general.vim
 
-source ~/.config/nvim/scripts/personal/messages.vim
 source ~/.config/nvim/scripts/personal/autoclose-empty-buffer.vim
 source ~/.config/nvim/scripts/personal/functions.vim
 source ~/.config/nvim/scripts/personal/smart-root.vim
