@@ -5,7 +5,6 @@ source ~/.config/nvim/scripts/personal/autoclose-empty-buffer.vim
 source ~/.config/nvim/scripts/personal/functions.vim
 source ~/.config/nvim/scripts/personal/smart-root.vim
 source ~/.config/nvim/scripts/others/autosave.vim
-source ~/.config/nvim/scripts/others/return_highlight_term.vim
 
 source ~/.config/nvim/filetype.vim
 source ~/.config/nvim/plugins.vim

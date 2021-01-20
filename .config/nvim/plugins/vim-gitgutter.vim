@@ -18,10 +18,10 @@ let g:gitgutter_sign_removed_first_line = '│'
 let g:gitgutter_sign_removed_above_and_below = '}'
 let g:gitgutter_sign_modified_removed = '│'
 
-autocmd VimEnter * highlight GitGutterAdd            guibg=none guifg=#00FF00
-autocmd VimEnter * highlight GitGutterChange         guibg=none guifg=#FFFF00
-autocmd VimEnter * highlight GitGutterDelete         guibg=none guifg=#FF0000
-autocmd VimEnter * highlight GitGutterChangeDelete   guibg=none guifg=#0000FF
+highlight GitGutterAdd          guifg=#00FF00
+highlight GitGutterChange       guifg=#FFFF00
+highlight GitGutterDelete       guifg=#FF0000
+highlight GitGutterChangeDelete guifg=#0000FF
 
 " autocmd BufEnter,WinEnter,FocusGained * set signcolumn=yes
 " autocmd BufLeave,WinLeave,FocusLost   * set signcolumn=no
