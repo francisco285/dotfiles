@@ -1,14 +1,19 @@
 function! ReturnBranchString() abort
   let options = ["\ue725", "\uE0A0"]
-  if !exists('g:loaded_fugitive') || g:loaded_fugitive == 0
+  if !exists('g:loaded_fugitive') || g:loaded_fugitive == 0 || FugitiveHead() ==# ''
     return ''
   endif
 
-  if FugitiveHead() !=# ''
-    return options[0] . ' ' . FugitiveHead()
-  else
+  return options[0] . ' ' . FugitiveHead()
+endfunction
+
+function! GitStatus() abort
+  if !exists('g:loaded_fugitive') || g:loaded_fugitive == 0 || FugitiveHead() ==# ''
     return ''
   endif
+
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf('+%d ~%d -%d', a, m, r)
 endfunction
 
 if !exists('g:lightline')
@@ -17,7 +22,7 @@ endif
 
 let g:lightline.active = {
       \   'left': [
-      \     [ 'mode', 'paste' ],
+      \     [ 'mode', 'paste',  ],
       \     [ 'cocstatus', 'readonly', 'filename', 'modified' ]
       \   ],
       \ }
@@ -42,6 +47,7 @@ let g:lightline.tab_component_function = {
       \ 'readonly': 'lightline#tab#readonly',
       \ 'tabnum': 'Tab_num',
       \ 'branch_string': 'ReturnBranchString',
+      \ 'git_status': 'GitStatus'
       \ }
 let g:lightline.component = {
       \ 'bufinfo': '%{bufname("%")}:%{bufnr("%")}',
@@ -66,7 +72,8 @@ let g:lightline.component = {
       \ 'line': '%l',
       \ 'column': '%c',
       \ 'close': '%999X X ',
-      \ 'winnr': '%{winnr()}'
+      \ 'winnr': '%{winnr()}',
+      \ 'git_status': '%{GitStatus()}'
       \ }
 
 function! FormatCwd() abort
@@ -90,7 +97,7 @@ let g:lightline.component_type = {
 
 let g:lightline.tabline = {
       \ 'left': [ [ 'vim_logo', 'buffers' ] ],
-      \ 'right': [ [ 'branch_string', 'current_working_directory' ] ]
+      \ 'right': [ [ 'git_status', 'branch_string', 'current_working_directory'] ]
       \ }
 
 let g:lightline.tab = {
