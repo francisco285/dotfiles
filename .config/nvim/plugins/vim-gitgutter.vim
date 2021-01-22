@@ -40,3 +40,8 @@ highlight GitGutterChangeDelete guifg=#0000FF
 
 " Don't map keys automatically, instead let user do it by theirself
 let g:gitgutter_map_keys = 0
+let g:gitgutter_preview_win_floating = 0
+let g:gitgutter_show_msg_on_hunk_jumping = 0
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
