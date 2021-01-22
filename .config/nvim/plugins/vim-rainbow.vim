@@ -1,14 +1,14 @@
 " Put this on your .vimrc for loading it for specific file types:
 " au FileType c,cpp,objc,objcpp call rainbow#load()
 " or just this to enable it globally:
-" let g:rainbow_active = 1
-
-autocmd BufEnter *.js,*.py call rainbow#load()
+autocmd VimEnter * call rainbow#load() | autocmd FileType * call rainbow#load()
 
 let g:rainbow_guifgs = [
-            \ '#ff0000',
-            \ '#ffff00',
-            \ '#00ffff',
+            \ 'Orchid',
+            \ '#F03030',
+            \ 'LightSkyBlue',
+            \ 'White',
+            \ 'Gold'
             \ ]
 
 " let g:rainbow_guifgs = [
