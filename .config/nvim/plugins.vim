@@ -7,7 +7,7 @@ endif
 
 call plug#begin('~/.nvim/plugged')
 
-Plug 'frazrepo/vim-rainbow'
+Plug 'francisco285/vim-rainbow'
 Plug 'gruvbox-community/gruvbox'
 Plug 'hzchirs/vim-material'
 Plug 'tomtom/tcomment_vim'
