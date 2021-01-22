@@ -25,7 +25,6 @@ set smartcase
 set incsearch
 set nohlsearch
 set list
-set listchars=tab:>-,extends:»,precedes:«,trail:•
 set autoindent
 set smartindent
 set nowrap
@@ -60,6 +59,11 @@ set undodir=~/.nvim/undo
 set undofile
 set guioptions-=mTrL
 set cursorline
+if &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
+  set listchars=tab:->,extends:»,precedes:«,trail:␣
+else
+  set listchars=tab:->,trail:-,extends:>,precedes:<,nbsp:+
+endif
 
 command! W w
 autocmd FileType * set formatoptions-=c formatoptions-=r formatoptions-=o
