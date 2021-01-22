@@ -58,6 +58,8 @@ function! SetTheme(name, ...) abort
     highlight FoldColumn guibg=NONE
   endif
 
+  highlight Folded gui=underline guibg=NONE
+
   call s:set_gitgutter_colors()
   call s:set_telescope_colors()
 
