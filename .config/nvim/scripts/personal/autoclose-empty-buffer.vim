@@ -13,29 +13,17 @@ function! s:deleteEmptyBuffer() abort
   endif
 endfunction
 
+let g:PreviousBufferHasNoName      = 0
+let g:PreviousBufferWasNotModified = 0
+
 function! s:previousBufferIsEmtpy() abort
   return g:PreviousBufferHasNoName && g:PreviousBufferWasNotModified
 endfunction
 
-function! PPreviousBufferIsEmtpy() abort
-  let bufferHasNoName = bufname('#') ==? ''
-  let bufferWasNotModified = !getbufvar(bufnr(expand('#')), '&modified')
-  return bufferHasNoName && bufferWasNotModified
-endfunction
-
-function! PPreviousBufferHasNoName() abort
-  return bufname('#') ==? ''
-endfunction
-
-function! PPreviousBufferWasNotModified() abort
-  return !getbufvar(bufnr(expand('#')), '&modified')
-endfunction
-
-autocmd VimEnter * autocmd BufEnter * call s:deleteEmptyBuffer()
-autocmd VimEnter * autocmd BufLeave * call s:setBufLeave()
-autocmd VimEnter * call s:setBufLeave()
+autocmd BufEnter * call s:deleteEmptyBuffer()
+autocmd BufLeave * call s:setBufLeave()
 
 function! s:setBufLeave() abort
-  let g:PreviousBufferHasNoName = bufname('%') ==? ''
-  let g:PreviousBufferWasNotModified = &modified == 0
+  let g:PreviousBufferHasNoName      = bufname('%') ==? ''
+  let g:PreviousBufferWasNotModified = &modified    ==  0
 endfunction
