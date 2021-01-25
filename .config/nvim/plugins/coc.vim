@@ -12,10 +12,16 @@ let g:coc_global_extensions = [
   \ ]
 
 " Highlight twin words {{{
-  hi CocHighlightText guibg=#292d3e
-  hi CocHighlightRead guibg=#292d3e
-  hi CocHighlightWrite guibg=#292d3e
-  autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd VimEnter * call s:twin_words()
+
+function! s:twin_words() abort
+  augroup highlight_twin_words
+    highlight CocHighlightText guibg=#292d3e
+    highlight CocHighlightRead guibg=#292d3e
+    highlight CocHighlightWrite guibg=#292d3e
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+  augroup END
+endfunction
 " }}}
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
