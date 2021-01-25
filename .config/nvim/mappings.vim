@@ -51,8 +51,8 @@ nnoremap <expr> <silent> <leader>p (v:count == 0 ? ":bp<cr>" : ":<c-u>exec 'bp '
 nnoremap <silent> <leader>P :bf
 " Delete buffer
 nnoremap <silent> <leader>d :silent bd<cr>
-nnoremap <silent> <leader>D :silent %bd<cr>
-" Easier jump to last active buffer
+nnoremap <silent> <leader>D :silent call <sid>close_hidden_buffers<cr>
+" Easier way to jump to last selected buffer
 nnoremap <leader><leader> <c-^>
 " Tab as 'leader' for window operations instead of <c-w>
 nmap <tab> <C-w>
@@ -120,3 +120,56 @@ function! s:toggleZenMode()
 
   let g:ZenModeIsOn = !g:ZenModeIsOn
 endfunction
+
+" https://github.com/airblade/dotvim/blob/master/vimrc ========================
+
+nnoremap gK K
+" Opposite of join (breaK?).
+" A space is replaced with a carriage return; otherwise a carriage return is inserted.
+nnoremap <expr> K getline('.')[col('.') - 1] == ' ' ? "r<CR>" : "i<CR><ESC>l"
+
+" gm jumps to middle of current screen line's text.
+function! s:goto_middle()
+  " Get buffer width. (http://stackoverflow.com/a/26318602/151007)
+  redir => signlist
+    execute "silent sign place buffer=".bufnr('')
+  redir end
+  let signlist = split(signlist, '\n')
+  let width = winwidth(0) - &numberwidth - &foldcolumn - (len(signlist) > 2 ? 2 : 0)
+
+  normal g^
+  let first_non_blank_char = col('.') % width
+  normal g$
+  let last_non_blank_char = 1 + ((col('.')-1) % width)
+  let middle_non_blank_char = first_non_blank_char + (last_non_blank_char - first_non_blank_char) / 2
+  execute "normal g0".middle_non_blank_char."l"
+endfunction
+nnoremap <silent> gm :call <sid>goto_middle()<CR>
+
+" Visually select the text that was most recently edited/pasted.
+" Note: gv selects previously selected area.
+nmap gV `[v`]
+
+" Retain cursor position when visually yanking.
+xnoremap <expr> y 'my"'.v:register.'y`y'
+xnoremap <expr> Y 'my"'.v:register.'Y`y'
+
+" Make * and # work with visual selection.
+xnoremap <silent> * yq/p<CR>
+xnoremap <silent> # yq?p<CR>
+
+nnoremap <silent> <leader>D :call <sid>close_hidden_buffers()<cr>
+" Wipe all hidden buffers.
+function! s:close_hidden_buffers()
+  let visible = []
+  for i in range(1, tabpagenr('$'))
+    call extend(visible, tabpagebuflist(i))
+  endfor
+  for b in filter(range(1, bufnr('$')), {_,b -> bufloaded(b) && index(visible,b) == -1})
+    execute 'bw' b
+  endfor
+endfunction
+
+" Narrow word text object: optional upper-case letter followed by lower-case letters
+xnoremap in :<C-U>normal! l?\a\l\+?s<C-V><CR>v/\L/s-<C-V><CR>v:nohlsearch<C-V><CR>gv<CR>
+onoremap in :normal vin<CR>
