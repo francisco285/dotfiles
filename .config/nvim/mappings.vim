@@ -120,11 +120,6 @@ endfunction
 
 " https://github.com/airblade/dotvim/blob/master/vimrc ========================
 
-nnoremap gK K
-" Opposite of join (breaK?).
-" A space is replaced with a carriage return; otherwise a carriage return is inserted.
-nnoremap <expr> K getline('.')[col('.') - 1] == ' ' ? "r<CR>" : "i<CR><ESC>l"
-
 " gm jumps to middle of current screen line's text.
 function! s:goto_middle()
   " Get buffer width. (http://stackoverflow.com/a/26318602/151007)
