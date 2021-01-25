@@ -85,6 +85,9 @@ cnoremap <c-space> <c-r>=expand('%:p:h')<cr>/
 " Show completion options
 cnoremap <expr> <c-d> getcmdpos()>strlen(getcmdline())?"\<lt>C-D>":"\<lt>Del>"
 
+" Turn One Line Into Title Caps (from :help g??)
+nnoremap <silent> gUt :s/\v<(.)(\w*)/\u\1\L\2/g<cr>
+
 nnoremap <silent> got :call <sid>open_dir_on_tmux(expand('%:p:h'))<cr>
 nnoremap <silent> goT :call <sid>open_dir_on_tmux(getcwd())<cr>
 
@@ -101,24 +104,18 @@ nnoremap <silent> <Leader>z :call <SID>toggleZenMode()<CR>
 
 function! s:toggleZenMode()
   if !exists('g:ZenModeIsOn')
-    let g:ZenModeIsOn = 1
+    let g:ZenModeEnabled = 1
   endif
 
-  if exists('$TMUX')
-    silent !tmux set status > /dev/null 2>&1
-  endif
-
-  if g:ZenModeIsOn
+  if g:ZenModeEnabled
     set showtabline=0
     set laststatus=0
-  endif
-
-  if !g:ZenModeIsOn
+  else
     set showtabline=2
     set laststatus=2
   endif
 
-  let g:ZenModeIsOn = !g:ZenModeIsOn
+  let g:ZenModeEnabled = !g:ZenModeEnabled
 endfunction
 
 " https://github.com/airblade/dotvim/blob/master/vimrc ========================
