@@ -9,6 +9,7 @@
 !.scripts/*
 !.local
 !.local/*
+.local/zsh_history
 !.local/share/applications
 !.local/share/applications/*
 
