@@ -1,256 +1,194 @@
-; vim:ft=dosini
-;
-;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
-;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
-;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
-;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
-;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
-;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-;
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/polybar/polybar
-;
-;   The README contains a lot of information
-;
+# vim: filetype=dosini
 
 [colors]
-background = #000
-background-alt = #444
-foreground = #dfdfdf
-foreground-alt = #555
-primary = #7199EE
-secondary = #e60053
-alert = #dd0000
+background-full-transparent = #00000000
+background-semi-transparent = #E50F111A
+background-opaque = #0F111A
+background = ${self.background-opaque}
+
+foreground = #7199EE
+foreground-alt = #A0A0A0
+alert = ${self.red}
+focus = ${self.white}
+
+white = #FFFFFF
+black = #000000
+green = #00FF00
+red = #FF0000
+yellow = #FFFF00
 
 [global/wm]
 margin-top = 0
 margin-bottom = 0
 
-[bar/example]
-monitor = ${env:MONITOR:}
+[bar/bar]
+monitor = ${env:MONITOR}
 width = 100%
-height = 30
+height = 26
 fixed-center = false
-; opaque:
-; background = ${colors.background}
-; transparency:
-background = #DD000000
+line-size = 2
+
 foreground = ${colors.foreground}
-line-size = 3
-line-color = #f00
-padding-left = 0
-padding-right = 2
-module-margin-left = 1
-module-margin-right = 2
+background = ${colors.background}
+
 font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
-font-3 = "Noto Color Emoji:pixelsize=16:style=Regular:scale=10;2"
-font-4 = "JetBrainsMono Nerd Font:pixelsize=16:style=Regular:scale=10;2"
-font-5 = "Material Icons:pixelsize=13;6"
-font-6 = "Font Awesome 5 Free:pixelsize=10:style=Solid"
-font-7 = "Font Awesome 5 Free:pixelsize=10:style=Regular"
+font-1 = "JetBrainsMono Nerd Font:style=Regular:pixelsize=11;1"
+font-2 = "Font Awesome 5 Free:pixelsize=10:style=Solid"
+
 enable-ipc = true
-
-; modules-left = i3
-modules-left = bspwm
 wm-restack = bspwm
-
+modules-left = power bspwm xkeyboard sxhkd
 modules-center =
-modules-right = backlight pulseaudio xkeyboard wlan cpu battery date time
+modules-right = music pulseaudio backlight wlan cpu temperature battery date time
+
 tray-position = right
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-; [module/custombrightness]
-; type = custom/script
-; format = <label>
-; format-background = ${colos.background}
-; format-foreground = ${colos.foreground}
-; label = "%{T7}%{T-} %percentage%%"
-; ; "click-(left|middle|right)" will be executed using "/bin/sh -c [command]"
-; exec =
-; click-left = brightness &
-; scroll-up = "$HOME/.scripts/brightness up" %counter%
-; scroll-down = "$HOME/.scripts/brightness down" %counter%
-; ; enable-scroll = true
-
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:60:...%
-
-[module/xkeyboard]
-type = internal/xkeyboard
-blacklist-0 = num lock
-format = <label-layout> <label-indicator>
-format-prefix = ""
-format-prefix-font = 7
-label-layout = " %layout%"
-label-indicator-padding = 2
-label-indicator-background = ${colors.foreground}
-label-indicator-foreground = ${colors.background}
-
-[module/filesystem]
-type = internal/fs
-interval = 25
-mount-0 = /
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
-label-unmounted = %mountpoint% not mounted
-label-unmounted-foreground = ${colors.foreground-alt}
+label = %title:0:40:...%
+label-padding = 2
 
 [module/bspwm]
 type = internal/bspwm
-label-focused = %index% %name%
-label-focused-underline = ${colors.foreground}
+pin-workspaces = true
+label-focused-font = 2
+label-focused = %{A1:$HOME/.config/bspwm/scripts/workspace-rename &:}< %index%%name% >%{A}
 label-focused-padding = 2
-label-occupied = %index% %name%
+label-occupied-font = 2
+label-occupied = %index%%name%
 label-occupied-padding = 2
-label-urgent = %index% %name%!
-label-urgent-background = ${colors.alert}
+label-urgent-font = 2
+label-urgent = %index%%name%!
 label-urgent-padding = 2
+label-empty-font = 2
 label-empty = %index%
-label-empty-foreground = ${colors.foreground-alt}
 label-empty-padding = 2
 
-[module/i3]
-type = internal/i3
-format = <label-state> <label-mode>
-index-sort = true
-wrapping-scroll = false
-pin-workspaces = true
-label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary}
-label-focused = %name%
+label-focused-foreground = ${colors.focus}
 label-focused-background = ${colors.background}
-label-focused-underline = ${colors.foreground}
-label-focused-padding = 2
-label-unfocused = %name%
-label-unfocused-padding = 2
-label-visible = %name%
-label-visible-background = ${self.label-focused-background}
-label-visible-padding = ${self.label-focused-padding}
-label-urgent = %name%
-label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
+label-occupied-foreground = ${colors.foreground}
+label-urgent-foreground = ${colors.alert}
+label-urgent-background = ${colors.background}
+label-empty-foreground = ${colors.foreground-alt}
 
-[module/mpd]
-type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
-label-song-maxlen = 25
-label-song-ellipsis = true
+[module/xkeyboard]
+type = internal/xkeyboard
+format = <label-indicator>
+label-indicator-padding = 2
+label-indicator-on = %{T3}%{T-} %name%
+label-indicator-on-padding = 2
+label-indicator-off =
+
+label-indicator-on-background = ${colors.background}
+label-indicator-on-foreground = ${colors.foreground}
+
+[module/sxhkd]
+type = custom/ipc
+hook-0 = printf '%s\n' ''
+hook-1 = cat /tmp/bspwm-mode
+format = <output>
+format-padding = 2
+initial = 1
+
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+
+[module/music]
+type = custom/script
+label = "%{A1:cmus-remote -C 'player-prev':}%{A}   %output%   %{A1:cmus-remote -C 'player-next':}%{A}"
+label-padding = 2
+label-foreground = ${colors.foreground}
+exec = music-toggle
+tail = true
+click-left = cmus-remote -C "player-pause"; kill -USR1 $(pgrep --oldest --parent %pid%)
+
+[module/pulseaudio]
+type = internal/pulseaudio
+format-volume = <ramp-volume> <label-volume>
+label-volume = %percentage:3:3%%
+ramp-volume-font = 3
+ramp-volume-0 = ""
+ramp-volume-1 = ""
+ramp-volume-2 = ""
+label-muted =   muted
+label-muted-font = 3
+format-muted-padding = 2
+format-volume-padding = 2
+
+format-muted-foreground = ${colors.foreground-alt}
+format-muted-background = ${colors.background}
+format-volume-foreground = ${colors.foreground}
+format-volume-background = ${colors.background}
 
 [module/backlight]
 type = internal/backlight
 card = radeon_bl0
 format = <label>
-; label syntax: https://github.com/polybar/polybar/wiki/Formatting#nested-actions
-label = "%{A1:brightness &:}%{A4:brightness up &:}%{A5:brightness down &:}%{T7}%{T-} %percentage%%%{A}%{A}%{A}"
-
-[module/cpu]
-type = internal/cpu
-interval = 2
-label = "%{A1:kitty sh -c 'htop' &:}%{T7}%{T-} %percentage:2%%%{A}"
-
-[module/memory]
-type = internal/memory
-interval = 2
-format-prefix = ""
-format-prefix-font = 7
-label = " %percentage_used%%"
+format-background = ${colors.background}
+label = "%{A1:brightness &:}%{A4:brightness up &:}%{A5:brightness down &:}%{T3}%{T-} %percentage%%%{A}%{A}%{A}"
+format-padding = 2
 
 [module/wlan]
 type = internal/network
 interface = wlp4s0
 interval = 3.0
 format-connected = <ramp-signal> <label-connected>
-label-connected = "%{A1:kill $(pidof nm-applet) || nm-applet &:} %essid%%{A}"
-label-connected-font = 7
+label-connected = "%{T3}%{T-} %essid%"
 format-disconnected =
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-5 = 
-ramp-signal-font = 7
+ramp-signal-0 =
+ramp-signal-1 =
+ramp-signal-2 =
+ramp-signal-3 =
+ramp-signal-4 =
+ramp-signal-5 =
+ramp-signal-font = 3
+format-connected-padding = 2
+format-disconnected-padding = 2
+
 ramp-signal-foreground = ${colors.foreground-alt}
+format-connected-background = ${colors.background}
+format-disconnected-background = ${colors.background}
 
-[module/eth]
-type = internal/network
-interface = enp3s0f2
-interval = 3.0
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
-format-disconnected =
+[module/cpu]
+type = internal/cpu
+interval = 2
+label = "%{A1:kitty 'btm' &:}%{T3}%{T-} %percentage:2%%%{A}"
+label-foreground = ${colors.foreground}
+label-background = ${colors.background}
+label-padding = 2
 
-[module/date]
-type = internal/date
-interval = 10
-date-font = 7
-time-font = 7
-date = "%{A1:kitty sh -c "calcurse -D ~/.config/calcurse" &:}%{T7} %{T-} %A %d %b%{A}"
-date-alt =
-label = %date%
-label-font = 7
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 90
+format = <ramp> <label>
+format-warn = <ramp> <label-warn>
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground =
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+ramp-font = 3
+format-padding = 2
+format-warn-padding = 2
 
-[module/time]
-type = internal/date
-interval = 10
-time = "%{T7}%{T-} %H:%M"
-label = %time%
-
-[module/pulseaudio]
-type = internal/pulseaudio
-format-volume = <ramp-volume> <label-volume>
-label-volume = %percentage:3:3%%
-ramp-volume-font = 7
-ramp-volume-0 = ""
-ramp-volume-1 = ""
-ramp-volume-2 = ""
-label-muted =   muted
-label-muted-font = 7
-label-muted-foreground = #666
-
-[module/alsa]
-type = internal/alsa
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL
-label-volume-foreground = ${root.foreground}
-format-muted-prefix = " "
-format-muted-foreground = ${colors.foreground-alt}
-label-muted = sound muted
-bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+format-warn-foreground = ${colors.red}
+format-warn-background = ${colors.background}
 
 [module/battery]
 type = internal/battery
 battery = BATT
 adapter = ADP0
 full-at = 100
-format-charging = <ramp-capacity> <label-charging>
-format-discharging = <ramp-capacity> <label-discharging>
+format-charging = <animation-charging> <label-charging>
+format-discharging = <animation-discharging> <label-discharging>
 ramp-capacity-0 = 
 ramp-capacity-1 = 
 ramp-capacity-2 = 
@@ -258,55 +196,68 @@ ramp-capacity-3 = 
 ramp-capacity-4 = 
 ramp-capacity-5 = 
 format-full-prefix = " "
-ramp-capacity-font = 7
-format-full-prefix-font = 7
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-framerate = 750
-animation-discharging-0 = 
-animation-discharging-1 = 
-animation-discharging-2 = 
-animation-discharging-framerate = 750
+ramp-capacity-font = 3
+format-full-prefix-font = 3
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-5 = 
+animation-charging-font = 3
+animation-charging-framerate = 1000
+animation-discharging-5 = 
+animation-discharging-4 = 
+animation-discharging-3 = 
+animation-discharging-2 = 
+animation-discharging-1 = 
+animation-discharging-0 = 
+animation-discharging-font = 3
+animation-discharging-framerate = 1000
 
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 60
-format = <ramp> <label>
-format-warn = <ramp> <label-warn>
-label = %temperature-c%
-label-warn = %temperature-c%
-label-warn-foreground = ${colors.secondary}
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-3 = 
-ramp-4 = 
-ramp-font = 7
+format-full-foreground = ${colors.foreground}
+format-full-background = ${colors.background}
 
-[module/powermenu]
-type = custom/menu
-expand-right = true
-format-spacing = 1
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
+format-charging-foreground = ${colors.green}
+format-charging-background = ${colors.background}
+
+format-discharging-background = ${colors.background}
+animation-discharging-foreground = ${colors.red}
+
+format-charging-padding = 2
+format-discharging-padding = 2
+format-full-padding = 2
+
+[module/date]
+type = internal/date
+interval = 10
+date-font = 3
+time-font = 3
+date = "%{A1:kitty sh -c "calcurse -D $HOME/.config/calcurse" &:}%{T3} %{T-} %A %d %b%{A}"
+date-alt =
+label = %date%
+label-font = 3
+label-padding = 2
+label-foreground = ${colors.foreground}
+label-background = ${colors.background}
+
+[module/time]
+type = internal/date
+interval = 10
+time = "%{T3}%{T-} %H:%M"
+label = %time%
+label-padding = 2
+label-foreground = ${colors.foreground}
+label-background = ${colors.background}
+
+[module/power]
+type = custom/text
+content = 
+click-left = power-menu
+content-font = 3
+content-padding = 2
+content-foreground = ${colors.foreground}
+content-background = ${colors.background}
 
 [settings]
 screenchange-reload = true
