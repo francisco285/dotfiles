@@ -1,0 +1,10 @@
+#!/bin/bash
+
+case $1 in
+  'cancel')
+    xdotool key Escape
+    ;;
+  *)
+    bspc node -z $1
+    ;;
+esac

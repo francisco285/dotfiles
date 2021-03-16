@@ -1,0 +1,17 @@
+#!/bin/sh
+
+bspc node -s $1 --follow
+
+[ $? = 0 ] && exit 0
+
+case $1 in
+  'east')
+    id=$(bspc query -N -n); bspc node --to-monitor 'next'; bspc node -f ${id}
+    ;;
+  'west')
+    id=$(bspc query -N -n); bspc node --to-monitor 'prev'; bspc node -f ${id}
+    ;;
+  *)
+    exit 1
+    ;;
+esac

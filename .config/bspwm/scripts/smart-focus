@@ -1,0 +1,17 @@
+#!/bin/sh
+
+bspc node -f $1
+
+[ $? = 0 ] && exit 0
+
+case $1 in
+  'east')
+    bspc monitor --focus 'next'
+    ;;
+  'west')
+    bspc monitor --focus 'prev'
+    ;;
+  *)
+    exit 1
+    ;;
+esac

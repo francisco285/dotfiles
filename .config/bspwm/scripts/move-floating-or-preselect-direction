@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# This script makes it possible to make a keybind have different behavior
+# depending on the window state: if it's floating, it will move the window. If
+# it's tiled or pseudo_tiled, it will preselect the direction of the next window
+
+if [ "$(bspc query -N -n focused.floating)" ]
+then
+    [ "$2" ] && STEP=$2 || STEP=20
+    directions=("-${STEP}\n0" "0\n${STEP}" "0\n-${STEP}" "${STEP}\n0")
+    bspc node -v $(echo -e ${directions[$1]})
+else if [[ "$(bspc query -N -n focused.tiled)" != "" || "$(bspc query -N -n focused.pseudo_tiled)" != "" ]]
+    then
+        directions=(west south north east)
+        bspc node -p "${directions[$1]}"
+    fi
+fi

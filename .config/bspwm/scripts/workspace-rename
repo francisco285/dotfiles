@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Rename the current workspace
+
+NEW_NAME="$(input 'Workspace name: ')"
+
+[ $? != 0 ] && exit 0
+
+NEW_NAME="$(printf '%s' "$NEW_NAME" | sed -r 's/^\s+//;s/\s+$//')"
+
+if [ -z "$NEW_NAME" ]; then
+  bspc desktop -n ""
+else
+  # ' - ' is important because it acts as separator between index and name on
+  # the polybar module. There's no simple way to make polybar add a separator
+  # only if workspace name is not empty.
+  bspc desktop -n " - $NEW_NAME"
+fi
