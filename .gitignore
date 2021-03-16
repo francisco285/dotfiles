@@ -14,7 +14,6 @@
 
 # whitelist these files inside $HOME
 !.bashrc
-!.tmux.conf
 !.vimrc
 !.Xresources
 !.zprofile
@@ -29,7 +28,7 @@
 !.config/bspwm/
 !.config/bspwm/*
 !.config/calcurse/
-!.config/calcurse/*
+!.config/calcurse/conf
 !.config/dunst/
 !.config/dunst/*
 !.config/i3/
@@ -39,12 +38,8 @@
 !.config/lf/
 !.config/lf/*
 !.config/nvim/
-!.config/nvim/*
-!.config/nvim/scripts/*
-!.config/nvim/scripts/others/*
-!.config/nvim/scripts/personal/*
-!.config/nvim/themes/*
-!.config/nvim/plugins/*
+!.config/nvim/**/*
+.config/nvim/plugin/packer_compiled.vim
 !.config/picom/
 !.config/picom/*
 !.config/polybar/
@@ -64,8 +59,15 @@
 
 !.config/zsh/
 .config/zsh/*
-!.config/zsh/.zsh-theme
-!.config/zsh/.zshrc
+!.config/zsh/zsh-keybindings
+!.config/zsh/zsh-options
+!.config/zsh/zsh-plugins
+!.config/zsh/zsh-theme
+!.config/zsh/zsh-vi-text-objects
+!.config/zsh/zshrc
+
+!.config/tmux/.tmux.conf
+!.config/tmux/base16.sh
 
 # whitelist these files inside .config
 !.config/mimeapps.list
