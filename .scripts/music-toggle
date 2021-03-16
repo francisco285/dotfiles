@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Script for the polybar module "music"
+
+t=0
+
+toggle() {
+    t=$(((t + 1) % 2))
+}
+
+
+trap "toggle" USR1
+
+while true; do
+    if [ $(pidof cmus) ]; then
+        if [ "$(cmus-remote -Q | head -1)" = 'status playing' ]; then
+            echo ''
+        else
+            echo ''
+        fi
+    else
+        # This makes sure the module wo'nt be displayed if cmus is not running
+        echo ""
+    fi
+    sleep 1 &
+    wait
+done

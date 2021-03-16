@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Change screen brightness
-
 shopt -s nocasematch
 case $1 in
   'up')
@@ -13,7 +11,7 @@ case $1 in
   '')
     while true
     do
-      PERCENTAGE=$(rofi -dmenu -lines 0 -p 'New brightness (%)')
+      PERCENTAGE=$(input 'New brightness (%)')
       PERCENTAGE=${PERCENTAGE%%.*}
       PERCENTAGE=$(echo $PERCENTAGE | sed -r 's/^\s+//;s/\s+$//')
       case $PERCENTAGE in

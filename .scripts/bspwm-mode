@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# References:
+# https://www.reddit.com/r/bspwm/comments/iatv9y/sxhkd_run_command_when_starting_and_aborting/g1sjioh/
+# https://gitlab.com/vahnrr/bspwm-scripts/-/blob/abb898e11c28360dc43f39b0e23fc74b86157e7b/sxhkd-watcher
+
+while read -r line
+do
+    case $line in
+        H*)
+            [ -z "$chain" ] && hk="${line#?}"
+            ;;
+        B*)
+            chain="$hk"
+            echo "${chain}"
+            case "$chain" in
+                'super + r'*)
+                    echo 'RESIZE' > '/tmp/bspwm-mode'
+                    polybar-msg hook sxhkd 2
+                    ;;
+                'super + a'*)
+                    echo 'APPS' > '/tmp/bspwm-mode'
+                    polybar-msg hook sxhkd 2
+                    ;;
+                'super + period'*)
+                    echo 'PREFIX' > '/tmp/bspwm-mode'
+                    polybar-msg hook sxhkd 2
+                    ;;
+                'super + ctrl + period'*)
+                    echo 'PREFIX' > '/tmp/bspwm-mode'
+                    polybar-msg hook sxhkd 2
+                    ;;
+            esac
+            ;;
+        E*)
+            unset chain
+            polybar-msg hook sxhkd 1
+            ;;
+    esac
+done < /tmp/sfifo

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Find and select things
+
+if [ $1 = 'emoji' ]; then
+    cat ~/Misc/emoji.txt | rofi -dmenu -p 'Emoji' -theme-str '#window { padding: 20%; }' | awk '{print $1}' | tr -d '\n' | xclip -i -selection clipboard
+elif [ $1 = 'unicode' ]; then
+    cat ~/Misc/unicode.txt | rofi -dmenu -p 'Unicode Character' -theme-str '#window { padding: 20%; }' | awk '{print $1}' | tr -d '\n' | xclip -i -selection clipboard
+elif [ $1 = 'manual' ]; then
+    MANUAL=$(man -k . | rofi -dmenu -p 'Manual' -theme-str '#window { padding: 20%; }' -matching 'regex' | awk '{print $1}')
+    echo $MANUAL | xargs -r man -Tpdf | zathura -
+elif [ $1 = 'book' ]; then
+    book=$(cd ~/Books && find -not -type d | sed 's/^\.\///' | rofi -dmenu -p 'Book' -theme-str '#window { padding: 20%;  }')
+    [ $? ] && [ "$book" != '' ] && zathura "~/Books/${book}"
+fi

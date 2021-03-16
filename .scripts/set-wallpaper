@@ -1,0 +1,9 @@
+#!/bin/bash
+
+directory="$WALLPAPERS"
+
+while true
+do
+  eval feh --randomize --bg-scale "$directory/*" &>/dev/null &
+  sleep 300
+done

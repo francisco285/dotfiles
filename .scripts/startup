@@ -1,0 +1,27 @@
+#!/bin/sh
+
+pgrep -x sxhkd > /dev/null
+
+if [ $DESKTOP_SESSION = "bspwm" ]
+then
+  mkfifo /tmp/sfifo
+  sxhkd -s '/tmp/sfifo' &
+  sxhkd -s '/tmp/sfifo' -c $HOME/.config/bspwm/sxhkdrc &
+  killall bspwm-mode > /dev/null
+  bspwm-mode &
+else
+  sxhkd &
+fi
+
+killall set-wallpaper > /dev/null
+killall picom > /dev/null
+
+picom --backend xrender &
+set-monitor &
+set-wallpaper &
+set-autolock &
+dunst &
+xset r rate 150 60 &
+$HOME/.config/polybar/launch &
+nm-applet &
+[ "$(pidof kitty)" ] || kitty 'tmux' &

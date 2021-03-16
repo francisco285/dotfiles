@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Lock screen when laptop lid is closed
+pkill -x xss-lock
+xss-lock -l -- lock-screen
+
+# Lock screen after certain time without input
+pkill -x xautolock
+xautolock -detectsleep -corners 0-00 -time 10 -locker "lock-screen" -notify 30 -notifier "notify-send 'Locking screen in 30 seconds'" &

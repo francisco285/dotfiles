@@ -1,0 +1,13 @@
+#!/bin/sh
+
+i3lock                        \
+    --clock                   \
+    --ignore-empty-password   \
+    --color=0F111AFF          \
+    --timecolor=FFFFFFFF      \
+    --datecolor=FFFFFFFF      \
+    --insidevercolor=82AAFFFF \
+    --ringcolor=546076FF      \
+    --keyhlcolor=82AAFFFF     \
+    --ringwrongcolor=FF0000FF \
+    --pointer=default

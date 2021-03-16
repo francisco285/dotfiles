@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [[ -z $1 ]]; then
+    prompt="Input: "
+else
+    prompt="$1"
+fi
+
+if [[ -z $2 ]]; then
+    # rofi default theme will automatically put ': ' at the end of the prompt
+    # string, so it is necessary to remove it if it is also contained in the
+    # given prompt
+    rofi -i -dmenu -lines 0 -p "$(printf '%s' "$prompt" | sed -r 's/:?\s?$//')" -matching 'fuzzy' -location 2 -yoffset 50 -theme-str '#window { fullscreen: false; padding: 5; width: 80%; }'
+else
+    printf '%s\n' "${@:2}" | rofi -i -dmenu -p "$prompt" -theme-str '#window { fullscreen: false; }' -theme '~/.config/rofi/themes/dmenu.rasi' -matching 'fuzzy'
+fi

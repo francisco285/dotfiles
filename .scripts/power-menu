@@ -1,0 +1,26 @@
+#!/bin/bash
+
+options=("lock screen" "logout" "shutdown" "cancel")
+
+action=$(input 'Power Menu: ' "$(printf '%s\n' "${options[@]}")")
+
+# Remove trail spaces
+action=$(printf "${action}" | sed -r 's/^\s+//;s/\s+$//')
+
+case $action in
+    '')
+        exit 0
+        ;;
+    'lock screen')
+        lock-screen
+        ;;
+    'logout')
+        [ "$(input "Exit session? " 'No' 'Yes')" = "Yes" ] && bspc quit
+        ;;
+    'shutdown')
+        [ "$(input "Shutdown? " 'No' 'Yes')" = "Yes" ] && shutdown now
+        ;;
+    'cancel')
+        exit 0
+        ;;
+esac
