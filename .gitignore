@@ -28,8 +28,8 @@
 # whitelist these folders inside .config
 !.config/bspwm/
 !.config/bspwm/*
-!.config/calcurse/
 !.config/calcurse/conf
+!.config/calcurse/keys
 !.config/dunst/
 !.config/dunst/*
 !.config/i3/
