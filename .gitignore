@@ -70,6 +70,9 @@
 !.config/tmux/.tmux.conf
 !.config/tmux/base16.sh
 
+!.config/git/
+!.config/git/.gitconfig
+
 # whitelist these files inside .config
 !.config/mimeapps.list
 !.config/user-dirs.dirs

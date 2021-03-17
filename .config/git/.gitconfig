@@ -1,0 +1,14 @@
+# vim: expandtab:shiftwidth=2:tabstop=2:softtabstop=2
+# Include this file in your global .gitconfig file, ex (in ~/.gitconfig):
+# [include]
+# path = ~/.config/git/.gitconfig
+[core]
+  editor = nvim
+  pager = delta
+[delta]
+  line-numbers = true
+  side-by-side = false
+  syntax-theme = base16
+  file-modified-label = modified:
+  line-numbers-left-format = " {nm} │"
+  line-numbers-right-format = " {np} │"
