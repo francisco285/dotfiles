@@ -12,3 +12,19 @@
   file-modified-label = modified:
   line-numbers-left-format = " {nm} │"
   line-numbers-right-format = " {np} │"
+[alias]
+  a = add
+  b = branch
+  d = diff
+  h = help
+  l = log
+  m = merge
+  c = checkout
+  co = checkout
+  s = status
+  cg = config
+  cm = commit
+  cl = clone
+  sh = show
+  sw = switch
+  ec = config --global -e
