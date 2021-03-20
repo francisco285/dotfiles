@@ -18,6 +18,8 @@ function map.telescope()
   set_map('n', '<M-;>l', [[<Cmd>Telescope loclist results_title=false preview_title=false<CR>]])
   set_map('n', '<M-;>f', [[<Cmd>execute 'Telescope find_files results_title=false preview_title=false cwd=' . expand('%:p:h')<CR>]])
   set_map('n', '<M-;>F', [[<Cmd>Telescope file_browser results_title=false preview_title=false<CR>]])
+  set_map('c', '<M-s>', [[<C-u><Cmd>Telescope commands<CR><CR>]])
+  set_map('c', '<M-h>', [[<C-u><Cmd>Telescope command_history<CR><CR>]])
   set_map('n', { '<M-;>p', '<C-p>' }, [[<Cmd>lua _T.smart_find_file()<CR>]])
 
   set_map('n', '<M-;>r', [[<Cmd>Telescope lsp_references<CR>]])
