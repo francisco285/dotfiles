@@ -13,6 +13,7 @@
 - [Polybar](https://github.com/polybar/polybar)
 - [Dunst](https://github.com/dunst-project/dunst)
 - [Kitty](https://sw.kovidgoyal.net/kitty)
+- [Tdrop](https://github.com/noctuid/tdrop)
 - [Tmux](https://github.com/tmux/tmux)
 - [Rofi](https://github.com/davatorium/rofi)
 - [Feh](https://github.com/derf/feh)
