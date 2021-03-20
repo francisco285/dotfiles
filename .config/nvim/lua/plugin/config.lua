@@ -100,6 +100,7 @@ end
 
 function config.vim_instant_markdown()
   vim.g.instant_markdown_autostart = 0
+  vim.g.instant_markdown_browser = "$BROWSER --new-window"
 end
 
 function config.vim_floaterm()
