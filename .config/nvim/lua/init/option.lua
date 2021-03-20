@@ -94,7 +94,7 @@ for option, value in pairs(options) do
   set_option(option, value)
 end
 
-vim.fn.nvim_exec([[
+vim.api.nvim_exec([[
 augroup formatoptions
   autocmd!
   autocmd BufRead * lua vim.bo.formatoptions = 'cqrj'

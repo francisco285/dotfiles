@@ -1,7 +1,7 @@
 local config = {}
 
 function config.telescope()
-  vim.fn.nvim_exec([[
+  vim.api.nvim_exec([[
   augroup Telescope
     autocmd!
     autocmd User TelescopePreviewerLoaded lua vim.wo.wrap, vim.wo.number = true, true
@@ -401,7 +401,7 @@ end
 
 function config.nvim_compe()
 
-  vim.fn.nvim_exec([[
+  vim.api.nvim_exec([[
   augroup trigger_completion
     autocmd!
     autocmd InsertEnter * silent! call compe#complete()
@@ -418,23 +418,38 @@ function config.nvim_compe()
     max_kind_width = 50,
     max_menu_width = 50,
     source = {
-      path = {
-        kind = ''
-      },
-      buffer = true,
-      calc = true,
-      vsnip = false,
-      nvim_lsp = true,
-      nvim_lua = true,
-      spell = true,
-      tags = true,
-      snippets_nvim = false
+      -- Common: ~
+      path   = true,  -- Path completion.
+      -- path = {
+      --   kind = ''
+      -- },
+      buffer = true,  -- Buffer completion.
+      tags   = true,  -- Tag completion.
+      spell  = true,  -- Spell file completion.
+      calc   = true,  -- Lua math expressions.
+      omni   = false, -- Omni completion. (Warning: It has a lot of side-effect.)
+      emoji  = true,  -- Emoji completion.
+
+      -- Neovim-specific: ~
+      nvim_lsp = true, -- Neovim's builtin LSP completion.
+      nvim_lua = true, -- Neovim's Lua "stdlib" completion.
+
+      -- External plugins: ~
+      -- Completion for external plugins.
+      -- Make sure you have the corresponding plugin installed.
+      vim_lsp         = false, -- vim-lsp completion.
+      vim_lsc         = false, -- vim-lsc completion.
+      vsnip           = false, -- vim-vsnip completion.
+      ultisnips       = false, -- UltiSnips completion.
+      snippets_nvim   = false, -- snippets.nvim completion.
+      nvim_treesitter = true   -- nvim-treesitter completion.
+
     }
   })
 end
 
 function config.gitsigns()
-  vim.fn.nvim_exec([[
+  vim.api.nvim_exec([[
      function! GitSignsColors()
          highlight GitSignsAdd          guifg=#00FF00 guibg=None ctermfg=Green  ctermbg=None
          highlight GitSignsChange       guifg=#FF7700 guibg=None ctermfg=Yellow ctermbg=None
@@ -463,7 +478,7 @@ function config.gitsigns()
 end
 
 function config.nvim_lightbulb()
-  vim.fn.nvim_exec([[
+  vim.api.nvim_exec([[
   augroup lightbulb
     autocmd!
     autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()

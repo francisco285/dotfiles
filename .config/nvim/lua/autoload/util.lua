@@ -17,7 +17,7 @@ function util.set_map(mode, lhs, rhs, opts)
 
   for _, m in ipairs(mode) do
     for _, key in ipairs(lhs) do
-      vim.fn.nvim_set_keymap(m, key, rhs, opts)
+      vim.api.nvim_set_keymap(m, key, rhs, opts)
     end
   end
 end

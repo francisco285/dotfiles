@@ -163,7 +163,7 @@ function map.option()
       rhs = string.format('<Cmd>set %s! <Bar> set %s?<CR>', opt, opt)
     end
 
-    vim.fn.nvim_set_keymap('n', lhs, rhs, {})
+    vim.api.nvim_set_keymap('n', lhs, rhs, {})
   end
 
   map_toggle('b', 'background', 'let &background = &background == "dark" ? "light" : "dark" <Bar> redraw')
