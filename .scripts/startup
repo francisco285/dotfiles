@@ -2,8 +2,7 @@
 
 pgrep -x sxhkd > /dev/null
 
-if [ $DESKTOP_SESSION = "bspwm" ]
-then
+if [ $DESKTOP_SESSION = "bspwm" ]; then
   mkfifo /tmp/sfifo
   sxhkd -s '/tmp/sfifo' &
   sxhkd -s '/tmp/sfifo' -c $HOME/.config/bspwm/sxhkdrc &
@@ -24,4 +23,3 @@ dunst &
 xset r rate 120 100 &
 $HOME/.config/polybar/launch &
 nm-applet &
-[ "$(pidof kitty)" ] || kitty 'tmux' &

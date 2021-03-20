@@ -15,7 +15,7 @@ super + semicolon
 
 # Open terminal or dropdown terminal
 super + {_, alt} + Return
-	{$(kitty sh -c 'tmux'), $(tdrop -ma -w 70% -h 70% -x 15% -y 15% kitty sh -c 'tmux')}
+	{$terminal, $(tdrop -ma -w 70% -h 70% -x 15% -y 15% $terminal)}
 
 # Open browser
 super + {b,shift + b}

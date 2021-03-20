@@ -1,5 +1,7 @@
-vim.cmd('highlight! link VertSplit Comment')
+vim.cmd('highlight FoldColumn guibg=None')
 vim.cmd('highlight SignColumn guibg=None')
 vim.cmd('highlight LineNr guibg=None')
 vim.cmd('highlight CursorLineNr guibg=None')
+vim.cmd('highlight! link VertSplit Comment')
+vim.cmd('highlight! link ModeMsg CursorLineNr')
 vim.cmd('highlight! link ModeMsg CursorLineNr')

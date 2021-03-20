@@ -96,14 +96,12 @@ function(use)
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
-    event = 'BufRead *',
     config = config.nvim_treesitter
   }
 
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
-    after = 'nvim-treesitter',
-    requires = 'nvim-treesitter/nvim-treesitter'
+    after = 'nvim-treesitter'
   }
 
   use {
@@ -238,7 +236,6 @@ function(use)
 
   use {
     'tpope/vim-surround',
-    event = 'BufRead *',
     requires = 'tpope/vim-repeat'
   }
 

@@ -1,6 +1,10 @@
+local fn = vim.fn
+
+-- TODO: It seems like vim.fn.expand() can be used to get a directory
+-- independently of the OS, maybe it's better to use it instead.
 local function get_undodir()
   local is_windows = jit.os == "Windows"
-  local separator = is_windows and "\\" or "/"
+  local separator = is_windows and "\\" or [[/]]
   local undodir = table.concat({ os.getenv("HOME"), ".cache", "nvim", "undo" }, separator)
 
   return undodir
@@ -10,8 +14,7 @@ local undodir = get_undodir()
 
 local function create_undodir()
   if vim.fn.isdirectory(undodir) == 0 then
-    os.execute("mkdir -p " .. undodir)
-    vim.cmd([[echo "undodir has been created"]])
+    vim.fn.mkdir(undodir, 'p')
   end
 end
 

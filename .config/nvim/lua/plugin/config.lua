@@ -121,13 +121,9 @@ function config.committia()
   vim.g.committia_min_window_width = 0
 end
 
-function config.vimspector()
-  vim.cmd([[command! VimspectorConfig lua vim.cmd('edit' .. vim.fn.getcwd() .. require('autoload.util').join_paths('vimspector', '.vimspector.json']])
-end
-
 function config.nvim_treesitter()
-  vim.api.nvim_command('set foldmethod=expr')
-  vim.api.nvim_command('set foldexpr=nvim_treesitter#foldexpr()')
+  vim.cmd([[set foldmethod=expr]])
+  vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
   require('nvim-treesitter.configs').setup({
     highlight = {
       enable = true
@@ -521,8 +517,8 @@ function config.nvim_lspconfig()
       hi! link LspReferenceWrite Pmenu
       augroup lsp_document_highlight
         autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+        autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()
       augroup END
       ]], false)
     end
