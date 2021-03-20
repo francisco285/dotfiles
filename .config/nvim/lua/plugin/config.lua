@@ -359,7 +359,7 @@ function config.galaxyline()
     {
       Indentation = {
         provider = function() return '' end,
-        separator = '%{printf("%s %s", &tabstop, &expandtab ? (&tabstop == 1 ? "Space" : "Spaces") : (&tabstop == 1 ? "Tab" : "Tabs"))}',
+        separator = '%{printf("%s %s", &shiftwidth, &expandtab ? (&shiftwidth == 1 ? "Space" : "Spaces") : (&shiftwidth == 1 ? "Tab" : "Tabs"))}',
         separator_highlight = { colors.fg, colors.bg }
       }
     },
