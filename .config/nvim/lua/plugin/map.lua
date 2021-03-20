@@ -81,9 +81,7 @@ function map.vimspector()
   endfunction
   ]])
 
-  vim.cmd([[command! VimspectorLaunch call vimspector#Launch()]])
-
-  set_map('n', '<leader>dd', [[<Cmd>VimspectorLaunch<CR>]])
+  set_map('n', '<leader>dd', [[<Cmd>call vimspector#Launch()<CR>]])
   set_map('n', '<leader>dc', [[<Cmd>call GotoWindow(g:vimspector_session_windows.code)<CR>]])
   set_map('n', '<leader>dt', [[<Cmd>call GotoWindow(g:vimspector_session_windows.tagpage)<CR>]])
   set_map('n', '<leader>dv', [[<Cmd>call GotoWindow(g:vimspector_session_windows.variables)<CR>]])

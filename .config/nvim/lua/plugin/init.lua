@@ -90,8 +90,7 @@ function(use)
   use {
     'puremourning/vimspector',
     cmd = 'VimspectorLaunch',
-    setup = setup.vimspector,
-    config = config.vimspector
+    setup = setup.vimspector
   }
 
   use {
