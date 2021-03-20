@@ -77,8 +77,8 @@ end
 
 function map.qf()
   set_map('n', '<Bslash>q', [[<Cmd>copen<CR>]])
-  set_map('n', '<C-h>', [[<Cmd>cnext<CR>]])
-  set_map('n', '<C-l>', [[<Cmd>cprevious<CR>]])
+  set_map('n', '<C-h>', [[<Cmd>cprevious<CR>]])
+  set_map('n', '<C-l>', [[<Cmd>cnext<CR>]])
 
   set_map('n', '<Bslash>l', [[<Cmd>lopen<CR>]])
   set_map('n', '<C-j>', [[<Cmd>lnext<CR>]])
