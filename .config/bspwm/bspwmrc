@@ -27,5 +27,6 @@ bspc rule -a Sxiv state=floating center=true
 bspc rule -a feh state=floating center=true
 bspc rule -a Gpick state=floating center=true
 bspc rule -a Arandr state=floating center=true
+bspc rule -a Galculator state=floating center=true
 
 startup
