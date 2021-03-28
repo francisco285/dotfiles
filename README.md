@@ -45,6 +45,10 @@
 - xss-lock
 - xautolock
 
-##TODO
+## TODO
 
-- (Neovim): https://github.com/marko-cerovac/material.nvim
+**Neovim**
+- https://github.com/marko-cerovac/material.nvim
+- https://github.com/pineapplegiant/spaceduck
+- https://github.com/pwntester/octo.nvim
+- https://github.com/aca/emmet-ls
