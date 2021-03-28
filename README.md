@@ -44,3 +44,7 @@
 - [i3lock-color](https://github.com/Raymo111/i3lock-color)
 - xss-lock
 - xautolock
+
+##TODO
+
+- (Neovim): https://github.com/marko-cerovac/material.nvim
