@@ -1,31 +1,59 @@
 local util = require('autoload.util')
 
 local function packer_bootstrap()
-  local execute = vim.api.nvim_command
+  local cmd = vim.api.nvim_command
   local fn = vim.fn
 
-  local install_path = util.join_paths(fn.stdpath('data'), 'site', 'pack', 'packer', 'opt', 'packer.nvim')
+  local install_path = util.join_paths(fn.stdpath('data'), 'site', 'pack', 'packer', 'start', 'packer.nvim')
 
   if fn.empty(fn.glob(install_path)) > 0 then
-    execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
-    execute([[packadd packer.nvim]])
+    cmd('silent !git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+    cmd([[packadd packer.nvim]])
+    local post_sync_commands = {
+      [[lua require('packer.display').quit();]],
+      [[vim.cmd('silent! PackerCompile');]],
+      [[vim.cmd('silent! Dashboard');]],
+      -- TODO: Find a way to make this actually get displayed, the current
+      -- behavior is treesitter messages being shown instead.
+      -- TODO: It would be even better to show it on a floating window.
+      [[vim.cmd('echo "Installation completed"')]]
+    }
+    util.set_augroup('bootstrap', {
+      { 'VimEnter', '*', [[echo 'Installing...' | silent! PackerSync]] },
+      { 'User', 'PackerComplete', '++once', '++nested', unpack(post_sync_commands) }
+    })
   end
 end
 
 packer_bootstrap()
 
+local map = require('plugin.map')
 local setup = require('plugin.setup')
 local config = require('plugin.config')
 
-vim.cmd('packadd packer.nvim')
+require('packer').init({
+  display = {
+    open_cmd = 'tabnew [packer]'
+  }
+})
 
 require('packer').startup(
 function(use)
-  use { 'wbthomason/packer.nvim', opt = true }
+  local function custom_use(plugin_table)
+    if plugin_table.map then
+      plugin_table.map()
+      plugin_table.map = nil
+    end
 
-  use {
+    use(plugin_table)
+  end
+
+  custom_use { 'wbthomason/packer.nvim' }
+
+  custom_use {
     'nvim-telescope/telescope.nvim',
     cmd = 'Telescope',
+    map = map.telescope,
     setup = setup.telescope,
     config = config.telescope,
     requires = {
@@ -34,97 +62,123 @@ function(use)
     }
   }
 
-  use {
+  -- TODO: Remove it when/if 'https://github.com/aca/emmet-ls' start working
+  -- nicely
+  custom_use {
     'mattn/emmet-vim',
     ft = { 'html', 'css', 'javascript', 'javascriptreact', 'vue', 'typescript', 'typescriptreact' },
     config = config.emmet_vim
   }
 
-  use {
+  custom_use {
     'norcalli/nvim-colorizer.lua',
     config = config.nvim_colorizer
   }
 
-  use {
+  custom_use {
     'prettier/vim-prettier',
     cmd = { 'Prettier', 'PrettierAsync', 'PrettierPartial', 'PrettierFragment', 'PrettierVersion', 'PrettierCli', 'PrettierCliPath', 'PrettierCliVersion' },
     ft = { 'javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html' },
     run = 'npm install',
+    map = map.vim_prettier,
     setup = setup.vim_prettier,
     config = config.vim_prettier
   }
 
-  use {
+  custom_use {
     'mbbill/undotree',
     cmd = 'UndotreeToggle',
+    map = map.undotree,
     setup = setup.undotree,
     config = config.undotree
   }
 
-  use {
+  custom_use {
     'instant-markdown/vim-instant-markdown',
     ft = 'markdown',
     config = config.vim_instant_markdown
   }
 
-  use {
+  -- Alternatives:
+  -- 'numToStr/FTerm.nvim'
+  -- 'kassio/neoterm'
+  custom_use {
     'voldikss/vim-floaterm',
     cmd = { 'FloatermToggle', 'FloatermNew' },
+    map = map.vim_floaterm,
     setup = setup.vim_floaterm,
     config = config.vim_floaterm
   }
 
-  use {
+  custom_use {
     'rhysd/git-messenger.vim',
     cmd = 'GitMessenger',
+    map = map.git_messenger,
     setup = setup.git_messenger,
     config = config.git_messenger
   }
 
-  use {
+  custom_use {
     'rhysd/committia.vim',
     ft = 'gitcommit',
     config = config.committia
   }
 
-  use {
+  -- Alternative: 'mfussenegger/nvim-dap'
+  custom_use {
     'puremourning/vimspector',
-    cmd = 'VimspectorLaunch',
-    setup = setup.vimspector
+    map = map.vimspector,
+    fn = 'vimspector#Launch'
   }
 
-  use {
+  custom_use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     config = config.nvim_treesitter
   }
 
-  use {
+  custom_use {
     'nvim-treesitter/nvim-treesitter-textobjects',
-    after = 'nvim-treesitter'
+    after = 'nvim-treesitter',
+    requires = { 'nvim-treesitter/nvim-treesitter' }
   }
 
-  use {
+  custom_use {
+    'p00f/nvim-ts-rainbow',
+    after = 'nvim-treesitter',
+    requires = { 'nvim-treesitter/nvim-treesitter' }
+  }
+
+  custom_use {
+    'romgrk/nvim-treesitter-context',
+    after = 'nvim-treesitter',
+    cmd = 'TSContextEnable',
+    requires = { 'nvim-treesitter/nvim-treesitter' }
+  }
+
+  custom_use {
     'liuchengxu/vista.vim',
     cmd = 'Vista',
-    setup = setup.vista,
+    map = map.vista,
     config = config.vista
   }
 
-  use {
+  custom_use {
     'brooth/far.vim',
     cmd = { 'Far', 'Fardo', 'Farf', 'Farp', 'Farr', 'Farundo' },
+    map = map.far,
     setup = setup.far,
     config = config.far
   }
 
-  use {
-    'glepnir/zephyr-nvim',
-    config = config.zephyr_nvim
+  custom_use {
+    'christianchiarulli/nvcode-color-schemes.vim',
+    config = config.nvcode_color_schemes
   }
 
-  use {
+  custom_use {
     'akinsho/nvim-bufferline.lua',
+    map = map.nvim_bufferline,
     setup = setup.nvim_bufferline,
     config = config.nvim_bufferline,
     requires = { 'kyazdani42/nvim-web-devicons' }
@@ -132,84 +186,94 @@ function(use)
 
   -- TODO: Configure LSP integration when (and if) it is implemented
   -- https://github.com/kyazdani42/nvim-tree.lua/issues/227
-  use {
+  -- (update): This feature is in progress here -> https://github.com/kyazdani42/nvim-tree.lua/pull/260
+  custom_use {
     'kyazdani42/nvim-tree.lua',
     cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
+    map = map.nvim_tree,
     setup = setup.nvim_tree,
     config = config.nvim_tree,
     requires = { 'kyazdani42/nvim-web-devicons' }
   }
 
-  use {
-    'glepnir/galaxyline.nvim',
-    branch = 'main',
-    after = 'zephyr-nvim',
-    config = config.galaxyline
+  custom_use {
+    'AndrewRadev/sideways.vim',
+    cmd = { 'SidewaysLeft', 'SidewaysRight' },
+    map = map.sideways
   }
 
-  use {
+  custom_use {
     'neovim/nvim-lspconfig',
     event = 'BufRead *',
+    map = map.nvim_lspconfig,
     setup = setup.nvim_lspconfig,
     config = config.nvim_lspconfig
   }
 
-  use {
+  custom_use {
     'hrsh7th/nvim-compe',
+    map = map.nvim_compe,
     setup = setup.nvim_compe,
     config = config.nvim_compe,
     event = 'InsertEnter *'
   }
 
-  use {
+  custom_use {
     'glepnir/lspsaga.nvim',
     cmd = 'Lspsaga',
+    map = map.lspsaga,
     setup = setup.lspsaga,
+    after = 'nvim-lspconfig',
     requires = 'neovim/nvim-lspconfig'
   }
 
-  use {
+  custom_use {
     'kosayoda/nvim-lightbulb',
     event = 'BufRead *',
     config = config.nvim_lightbulb
   }
 
-  use {
+  custom_use {
     'chrisbra/NrrwRgn',
     cmd = { 'NarrowRegion', 'NR' },
     setup = setup.NrrwRgn
   }
 
-  use {
+  custom_use {
     'editorconfig/editorconfig-vim'
   }
 
-  use {
+  -- Alternative: 'tpoppe/vim-fugitive'
+  custom_use {
     'lambdalisue/gina.vim',
     cmd = 'Gina',
+    map = map.gina,
     setup = setup.gina
   }
 
-  use {
+  custom_use {
     'tomtom/tcomment_vim',
     event = 'BufRead *',
+    map = map.tcomment_vim,
     setup = setup.tcomment_vim
   }
 
-  use {
+  custom_use {
     'ThePrimeagen/vim-be-good',
     cmd = 'VimBeGood'
   }
 
-  use {
+  custom_use {
     'justinmk/vim-dirvish',
     cmd = 'Dirvish',
+    map = map.vim_dirvish,
     setup = setup.vim_dirvish
   }
 
-  use {
+  custom_use {
     'lewis6991/gitsigns.nvim',
     event = 'BufRead *',
+    map = map.gitsigns,
     setup = setup.gitsigns,
     config = config.gitsigns,
     requires = {
@@ -217,43 +281,149 @@ function(use)
     }
   }
 
-  use {
+  custom_use {
     'AndrewRadev/splitjoin.vim',
     cmd = { 'SplitjoinJoin', 'SplitjoinSplit' },
+    map = map.splitjoin,
     setup = setup.splitjoin
   }
 
-  use {
+  custom_use {
     'justinmk/vim-gtfo',
     event = 'BufRead *'
   }
 
-  use {
+  custom_use {
     'szw/vim-maximizer',
     cmd = 'MaximizerToggle',
+    map = map.vim_maximizer,
     setup = setup.vim_maximizer
   }
 
-  use {
+  custom_use {
     'tpope/vim-surround',
     requires = 'tpope/vim-repeat'
   }
 
-  -- Other interesting plugins:
-  -- 'tpope/vim-dadbod'
-  -- 'kristijanhusak/vim-dadbod-ui'
-  -- 'hrsh7th/vim-vsnip'
-  -- 'mattn/vim-sonictemplate'
-  -- 'pechorin/any-jump.vim'
-  -- 'junegunn/vim-journal'
-  -- 'tpope/vim-surround'
-  -- 'wellle/targets.vim'
-  -- 'tpoppe/vim-fugitive'
-  -- 'junegunn/goyo.vim'
-  -- 'codota/tabnine-vim'
-  -- 'cohama/lexima.vim'
-  -- Note: I am probably not going to use lexima anymore, but if I do, it is
-  -- nice to save this piece of code (useful for html):
-  -- vim.fn['lexima#add_rule']({'char': '<CR>', 'at': [[>\%#<]], 'input_after': '<CR>', 'filetype': 'html'})
+  custom_use {
+    'hoob3rt/lualine.nvim',
+    config = config.lualine,
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
+
+  custom_use {
+    'bfredl/nvim-miniyank',
+    map = map.nvim_miniyank,
+    config = config.nvim_miniyank
+  }
+
+  custom_use {
+    'metakirby5/codi.vim',
+    cmd = { 'Codi' },
+    config = config.codi
+  }
+
+  -- Alternative: 'f-person/git-blame.nvim'
+  custom_use {
+    'APZelos/blamer.nvim',
+    config = config.blamer
+  }
+
+  custom_use {
+    'glepnir/dashboard-nvim',
+    map = map.dashboard,
+    config = config.dashboard
+  }
+
+  custom_use {
+    'liuchengxu/vim-which-key',
+    cmd = 'WhichKey',
+    map = map.vim_which_key,
+    config = config.vim_which_key
+  }
+
+  custom_use {
+    'turbio/bracey.vim',
+    run = 'npm install --prefix server',
+    setup = setup.bracey
+  }
+
+  custom_use {
+    'psliwka/vim-smoothie',
+    config = config.vim_smoothie
+  }
+
+  -- 'junegunn/goyo.vim' -- Zen mode (issue: creates side effects on highlights)
+  custom_use {
+    'junegunn/goyo.vim',
+    map = map.goyo,
+    cmd = 'Goyo'
+  }
+
+  custom_use {
+    'wellle/targets.vim',
+    event = 'BufRead *'
+  }
+
+  custom_use {
+    'tversteeg/registers.nvim',
+    config = config.registers
+  }
+
+  custom_use {
+    'kevinhwang91/nvim-bqf',
+    ft = 'qf'
+  }
+
+  custom_use {
+    'hrsh7th/vim-vsnip',
+    map = map.vim_vsnip,
+    requires = { 'rafamadriz/friendly-snippets' }
+  }
+
+  custom_use { 'itchyny/vim-cursorword' }
+
+  custom_use { 'rhysd/conflict-marker.vim' }
+
+  custom_use { 'mattn/vim-sonictemplate' }
+
+  -- Neovim lua guide:
+  -- https://github.com/nanotee/nvim-lua-guide
+  -- Awesome Neovim plugins:
+  -- https://github.com/rockerBOO/awesome-neovim
+
+  -- Broken:
+  -- 'glacambre/firenvim' -- Neovim in the browser (issue: very slow)
+  -- 'windwp/nvim-ts-autotag' -- Auto close/rename html tags using treesitter (issue: does not work at all)
+  -- 'gelguy/wilder.nvim' -- (issue: painful to setup in lua and its implementation is sort of a workaround due to wildmenu limitations)
+  -- 'turbio/bracey.vim' -- Live edit html, css, and javascript in vim (issue: does not respect custom command and throws an error)
+  -- custom_use {
+  --   'lukas-reineke/indent-blankline.nvim',
+  --   config = config.indent_blankline,
+  --   branch = 'lua'
+  -- } -- (issue: causes Neovim to have bad performance)
+
+  -- Not tested yet:
+  -- 'kabouzeid/nvim-lspinstall' -- Provides ':LspInstall' command to easily install language server protocols
+  -- 'tpope/vim-dadbod' -- Database
+  -- 'kristijanhusak/vim-dadbod-ui' -- Database
+  -- 'kristijanhusak/vim-dadbod-completion' -- Database
+  -- 'kkoomen/vim-doge' -- (Do)cumentation (Ge)nerator
+  -- 'pechorin/any-jump.vim' -- Go to definition for any language
+  -- 'codota/tabnine-vim' -- Advanced AI based autocomplete for all programming languages
+  -- 'mattn/vim-gist' -- Easily create gists
+  -- 'TimUntersberger/neogit' -- Magit clone for Neovim
+  -- 'mattn/webapi-vim'
+  -- 'nvim-treesitter/nvim-treesitter-refactor'
+  -- 'jbyuki/instant.nvim' -- Collaborative editing in Neovim using built-in capabilities
+  -- 'pwntester/octo.nvim' -- Edit and review GitHub issues and pull requests from the comfort of your favorite editor
+  -- 'vim-test/vim-test' -- Run your tests at the speed of thought
+  -- 'rcarriga/vim-ultest' -- The ultimate testing plugin for (Neo)Vim
+  -- 'tamago324/nlsp-settings.nvim' -- A plugin for setting Neovim LSP with JSON files
+
+  -- TODO:
+  -- Database integration
+  -- Github integration
+  -- Wrapper for running tests
 end
 )

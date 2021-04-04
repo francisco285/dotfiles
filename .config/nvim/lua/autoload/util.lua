@@ -6,6 +6,34 @@ function util.echo_error_message(message)
   vim.cmd([[echohl None]])
 end
 
+-- https://github.com/ChristianChiarulli/nvcode/blob/12c2b7dbad5dcd3b25d6e3cde62bd55eb7fb8df3/lua/nv-utils/init.lua#L3-L23
+function util.set_augroup(group_name, definition)
+  vim.cmd('augroup ' .. group_name)
+  vim.cmd('autocmd!')
+
+  for _, def in pairs(definition) do
+    local command = table.concat(vim.tbl_flatten {'autocmd', def}, ' ')
+    vim.cmd(command)
+  end
+
+  vim.cmd('augroup END')
+end
+
+-- https://github.com/ChristianChiarulli/nvcode/blob/12c2b7dbad5dcd3b25d6e3cde62bd55eb7fb8df3/lua/nv-utils/init.lua#L3-L23
+function util.set_augroups(definitions)
+    -- Create autocommand groups based on the passed definitions
+    --
+    -- The key will be the name of the group, and each definition
+    -- within the group should have:
+    --    1. Trigger
+    --    2. Pattern
+    --    3. Text
+    -- just like how they would normally be defined from Vim itself
+    for group_name, definition in pairs(definitions) do
+      util.set_augroup(group_name, definition)
+    end
+end
+
 function util.set_map(mode, lhs, rhs, opts)
   local mode = mode
   local opts = opts or {}
@@ -56,6 +84,9 @@ end
 function util.set_indentation(expandtab, width)
   local expandtab, width = expandtab, tonumber(width)
 
+  -- TODO: Maybe change it to something like:
+  -- if expandtab == 'true' or tonumber(expandtab) == 1 then
+  -- So it acts as expected when we pass a number as argument for expandtab
   if expandtab == 'true' or expandtab == '1' then
     expandtab = true
   elseif expandtab == 'false' or expandtab == '0' then

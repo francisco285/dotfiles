@@ -23,15 +23,13 @@ function map.window()
   set_map({ 'n', 't' }, '<M-K>', [[<Cmd>wincmd K<CR>]])
   set_map({ 'n', 't' }, '<M-L>', [[<Cmd>wincmd L<CR>]])
 
-  set_map({ 'n', 't' }, '<M-(>', [[<Cmd>wincmd <<CR>]])
+  set_map({ 'n', 't' }, '<M-{>', [[<Cmd>wincmd <<CR>]])
   set_map({ 'n', 't' }, '<M-->', [[<Cmd>wincmd -<CR>]])
   set_map({ 'n', 't' }, '<M-+>', [[<Cmd>wincmd +<CR>]])
-  set_map({ 'n', 't' }, '<M-)>', [[<Cmd>wincmd ><CR>]])
+  set_map({ 'n', 't' }, '<M-}>', [[<Cmd>wincmd ><CR>]])
 
   set_map({ 'n', 't' }, '<M-=>', [[<Cmd>wincmd =<CR>]])
 
-  set_map('n', '<M-c>', [[<Cmd>close<CR>]])
-  set_map('n', '<M-o>', [[<Cmd>wincmd o<CR>]])
   set_map('n', '<M-w>', [[<Cmd>wincmd w<CR>]])
   set_map('n', { '<M-s>h', '<M-s><M-h>' }, [[<Cmd>above vertical split<CR>]])
   set_map('n', { '<M-s>j', '<M-s><M-j>' }, [[<Cmd>below          split<CR>]])
@@ -40,6 +38,9 @@ function map.window()
 end
 
 function map.tab()
+  -- TODO: Set more tab related keymaps, e.g.: tabclose, tabonly, tabmove, etc...
+  set_map('n', '<Leader><Tab>', [[<Cmd>tabnew<CR>]])
+
   set_map('n', '[t', [[<Cmd>tabprevious<CR>]])
   set_map('n', ']t', [[<Cmd>tabnext<CR>]])
   set_map('n', '[T', [[<Cmd>tabfirst<CR>]])
@@ -94,17 +95,11 @@ function map.black_hole()
 end
 
 function map.insert()
-  set_map('i', '<C-h>', [[<Left>]], { noremap = true })
-  set_map('i', '<C-l>', [[<Right>]], { noremap = true })
-  set_map('i', '<C-d>', [[<Del>]], { noremap = true })
-  set_map('i', '<C-b>', [[<S-Left>]], { noremap = true })
-  set_map('i', '<C-f>', [[<S-Right>]], { noremap = true })
-  set_map('i', '<C-a>', [[<C-o>I]], { noremap = true })
-  set_map('i', '<C-e>', [[pumvisible() ? "\<C-e>" : "\<End>"]], { noremap = true, expr = true })
-  set_map('i', '<C-s>', [[<Cmd>update<CR>]])
+  set_map('i', '<C-h>', [[<C-w>]], { noremap = true })
 end
 
 function map.enhance()
+  set_map('n', '<Leader>gf', [[<Cmd>edit <cfile><CR>]])
   set_map('n', '<Up>', [[<C-y>]], { noremap = true })
   set_map('n', '<Down>', [[<C-e>]], { noremap = true })
   set_map('n', '/', [[/\v]], { noremap = true })
@@ -129,7 +124,7 @@ function map.enhance()
 end
 
 function map.editing()
-  set_map('n', '<Bslash>w', [[<Cmd>update<CR>]])
+  -- set_map('n', '<Bslash>w', [[<Cmd>update<CR>]])
 
   -- Undo/Redo but only considering written changes.
   set_map('n', '[w', [['<Cmd>earlier ' . v:count1 . 'f<CR>']], { expr = true })

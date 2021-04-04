@@ -4,7 +4,11 @@ local map = {}
 function map.telescope()
   set_map('n', '<M-;><M-;>', [[<Cmd>Telescope builtin previewer=false theme=get_dropdown<CR>]])
   set_map('n', '<M-;>:', [[<Cmd>Telescope commands theme=get_dropdown<CR>]])
+  set_map('n', '<M-;>"', [[<Cmd>Telescope registers theme=get_dropdown<CR>]])
   set_map('n', '<M-;>/', [[<Cmd>Telescope current_buffer_fuzzy_find theme=get_dropdown<CR>]])
+  set_map('n', '<M-;>o', [[<Cmd>Telescope vim_options theme=get_dropdown<CR>]])
+  set_map('n', '<M-;>c', [[<Cmd>Telescope colorscheme theme=get_dropdown<CR>]])
+  set_map('n', '<M-;>m', [[<Cmd>Telescope marks<CR>]])
   set_map('n', '<M-;>gc', [[<Cmd>Telescope git_commits results_title=false preview_title=false<CR>]])
   set_map('n', '<M-;>gfc', [[<Cmd>Telescope git_bcommits results_title=false preview_title=false<CR>]])
   set_map('n', '<M-;>gb', [[<Cmd>Telescope git_branches previewer=false theme=get_dropdown<CR>]])
@@ -103,8 +107,6 @@ function map.vimspector()
 end
 
 function map.tcomment_vim()
-  local exec = vim.cmd
-
   -- Default gc maps
   set_map('n', 'gc', '<Plug>TComment_gc', { silent = true })
 
@@ -197,6 +199,7 @@ end
 function map.nvim_compe()
   set_map('i', '<C-Space>', [[compe#complete()]], { silent = true, expr = true })
   set_map('i', '<CR>', [[compe#confirm('<CR>')]], { silent = true, expr = true })
+
   set_map('i', '<C-e>', [[pumvisible() ? compe#close('<C-e>') : "<C-e>"]], { silent = true, expr = true })
   set_map('i', '<C-f>', [[compe#scroll({ 'delta': +4 })]], { silent = true, expr = true })
   set_map('i', '<C-d>', [[compe#scroll({ 'delta': -4 })]], { silent = true, expr = true })
@@ -253,6 +256,42 @@ function map.lspsaga()
   set_map('i', '<C-]>', [[<Cmd>Lspsaga signature_help<CR>]])
   set_map('n', '<Leader>r', [[<Cmd>Lspsaga rename<CR>]])
   set_map('n', '<Leader>D', [[<Cmd>Lspsaga show_line_diagnostics<CR>]])
+end
+
+function map.nvim_miniyank()
+  set_map('', 'p', [[<Plug>(miniyank-autoput)]], { silent = true })
+  set_map('', 'P', [[<Plug>(miniyank-autoPut)]], { silent = true })
+  set_map('', ']y', [[<Plug>(miniyank-cycle)]], { silent = true })
+  set_map('', '[y', [[<Plug>(miniyank-cycleback)]], { silent = true })
+end
+
+function map.dashboard()
+  set_map('n', '<Bslash>ss', '<Cmd>SessionSave<CR>')
+  set_map('n', '<Bslash>sl', '<Cmd>SessionLoad<CR>')
+end
+
+function map.vim_which_key()
+  set_map('n', '<C-w>?', [[<Cmd>WhichKey '<C-w>'<CR>]])
+
+  set_map('n', '<Space>?', [[<Cmd>WhichKey '<Space>'<CR>]])
+  set_map('v', '<Space>?', [[<Cmd>WhichKeyVisual '<Space>'<CR>]])
+  set_map('n', '<Bslash>?', [[<Cmd>WhichKey '<Bslash>'<CR>]])
+  set_map('v', '<Bslash>?', [[<Cmd>WhichKeyVisual '<Bslash>'<CR>]])
+
+  -- (Telescope maps)
+  set_map('n', '<M-;>?', [[<Cmd>WhichKey '<lt>M-;>'<CR>]])
+end
+
+function map.goyo()
+  set_map('n', '<Leader>z', [[<Cmd>Goyo<CR>]])
+end
+
+function map.vim_vsnip()
+  -- set_map('i', '<C-j>', [[vsnip#available(1) ? '<Plug>(vsnip-expand)' : '<C-j>']], { expr = true })
+  set_map('i', '<C-l>', [[vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>']], { expr = true })
+
+  set_map('s', '<Tab>', [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>']], { expr = true })
+  set_map('s', '<S-Tab>', [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], { expr = true })
 end
 
 return map

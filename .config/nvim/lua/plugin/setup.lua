@@ -11,76 +11,19 @@ function setup.telescope()
       vim.cmd([[Telescope git_files results_title=false preview_title=false]])
     end
   end
-
-  require('plugin.map').telescope()
-end
-
-function setup.vim_prettier()
-  require('plugin.map').vim_prettier()
-end
-
-function setup.undotree()
-  require('plugin.map').undotree()
-end
-
-function setup.vim_floaterm()
-  require('plugin.map').vim_floaterm()
-end
-
-function setup.vim_dirvish()
-  require('plugin.map').vim_dirvish()
-end
-
-function setup.git_messenger()
-  require('plugin.map').git_messenger()
-end
-
-function setup.gina()
-  require('plugin.map').gina()
-end
-
-function setup.vimspector()
-  require('plugin.map').vimspector()
 end
 
 function setup.tcomment_vim()
   vim.g.tcomment_maps = 0
-  require('plugin.map').tcomment_vim()
 end
 
 function setup.vim_maximizer()
   vim.g.maximizer_restore_on_winleave = 1
-  require('plugin.map').vim_maximizer()
-end
-
-function setup.nvim_bufferline()
-  require('plugin.map').nvim_bufferline()
-end
-
-function setup.nvim_tree()
-  require('plugin.map').nvim_tree()
-end
-
-function setup.sideways()
-  require('plugin.map').sideways()
-end
-
-function setup.gitsigns()
-  require('plugin.map').gitsigns()
 end
 
 function setup.splitjoin()
   vim.g.splitjoin_join_mapping = ''
   vim.g.splitjoin_split_mapping = ''
-  require('plugin.map').splitjoin()
-end
-
-function setup.vista()
-  require('plugin.map').vista()
-end
-
-function setup.far()
-  require('plugin.map').far()
 end
 
 function setup.nvim_compe()
@@ -133,8 +76,6 @@ function setup.nvim_compe()
       return t '<C-k>'
     end
   end
-
-  require('plugin.map').nvim_compe()
 end
 
 function setup.nvim_lspconfig()
@@ -176,17 +117,15 @@ function setup.nvim_lspconfig()
     '  Operator';      -- = 24;
     '  TypeParameter'; -- = 25;
   }
-
-  require('plugin.map').nvim_lspconfig()
-end
-
-function setup.lspsaga()
-  require('plugin.map').lspsaga()
 end
 
 function setup.NrrwRgn()
   vim.g.nrrw_rgn_nomap_nr = 1
   vim.g.nrrw_rgn_nomap_Nr = 1
+end
+
+function setup.bracey()
+  vim.g.bracey_browser_command = 'brave-browser'
 end
 
 return setup

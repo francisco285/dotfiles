@@ -45,8 +45,6 @@ function terminal.open_repl(filetype, terminal_command)
   if not filetype or filetype == '' then
     filetype = vim.bo.filetype
   end
-  -- TODO: Probably there is a more "elegant" way to do this (maybe using
-  -- something similar to `this` or `self`?), need to learn more lua though.
   local repl = terminal.repl_settings[filetype]
 
   if repl then
@@ -58,8 +56,6 @@ end
 
 function terminal.run_file(terminal_command)
   local filetype = vim.bo.filetype
-  -- TODO: Probably there is a more "elegant" way to do this (maybe using
-  -- something similar to `this` or `self`?), need to learn more lua though.
   local run = terminal.run_settings[filetype]
 
   if run then

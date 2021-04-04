@@ -21,32 +21,32 @@ end
 create_undodir()
 
 local options = {
-  background = "dark",
+  background = 'dark',
   backup = false,
-  belloff = "all",
-  clipboard = "unnamed,unnamedplus",
+  belloff = 'all',
+  clipboard = 'unnamed,unnamedplus',
   cmdheight = 1,
   cmdwinheight = 10,
-  colorcolumn = "80",
-  completeopt = "menuone,noselect",
+  colorcolumn = '80',
+  completeopt = 'menuone,noselect',
   confirm = true,
   cursorline = true,
   expandtab = true,
   fillchars = [[vert:│,eob:\ ,foldsep:\ ,foldopen:▼,foldclose:▶]],
-  foldmethod = "marker",
+  foldmethod = 'marker',
   foldenable = true,
   foldlevelstart = 99,
   hidden = true,
   hlsearch = true,
   ignorecase = true,
   smartcase = true,
-  inccommand = "nosplit",
+  inccommand = 'nosplit',
   joinspaces = false,
-  langmenu = "en_US-UTF-8",
+  langmenu = 'en_US-UTF-8',
   lazyredraw = false,
   list = true,
-  listchars = "tab:>·,nbsp:+,trail:·,extends:→,precedes:←",
-  mouse = "a",
+  listchars = 'tab:>·,eol:⏎,nbsp:+,trail:␣,extends:→,precedes:←',
+  mouse = 'a',
   number = true,
   pumblend = 20,
   pumheight = 15,
@@ -54,14 +54,14 @@ local options = {
   report = 0,
   ruler = false,
   scrolloff = 8,
-  selection = "exclusive",
+  selection = 'exclusive',
   shiftwidth = 2,
-  shortmess = "filmnrwxoOtcF",
-  showbreak = "↳",
+  shortmess = 'filmnrwxoOtcF',
+  showbreak = '↳',
   showmode = true,
   showtabline = 2,
   sidescrolloff = 5,
-  signcolumn = "yes",
+  signcolumn = 'yes',
   smartindent = true,
   softtabstop = 2,
   splitbelow = true,
@@ -75,8 +75,9 @@ local options = {
   undodir = undodir,
   undofile = true,
   updatetime = 100,
-  virtualedit = "block",
-  wildignore = ".git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,*.DS_Store,**/node_modules/**,**/bower_modules/**",
+  virtualedit = 'block',
+  wildcharm = '<Tab>',
+  wildignore = '.git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,*.DS_Store,**/node_modules/**,**/bower_modules/**',
   wildignorecase = true,
   winblend = 20,
   wrap = false,
@@ -85,11 +86,11 @@ local options = {
 
 local function set_option(option, value)
   if value == true then
-    vim.cmd("set " .. option)
+    vim.cmd('set ' .. option)
   elseif value == false then
-    vim.cmd("set no" .. option)
+    vim.cmd('set no' .. option)
   else
-    vim.cmd("set " .. option .. "=" .. value)
+    vim.cmd('set ' .. option .. '=' .. value)
   end
 end
 
@@ -100,6 +101,6 @@ end
 vim.api.nvim_exec([[
 augroup formatoptions
   autocmd!
-  autocmd BufRead * lua vim.bo.formatoptions = 'cqrj'
+  autocmd BufEnter * lua vim.bo.formatoptions = 'cqrj'
 augroup END
 ]], false)

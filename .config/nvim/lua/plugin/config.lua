@@ -1,12 +1,11 @@
 local config = {}
 
 function config.telescope()
-  vim.api.nvim_exec([[
-  augroup Telescope
-    autocmd!
-    autocmd User TelescopePreviewerLoaded lua vim.wo.wrap, vim.wo.number = true, true
-  augroup END
-  ]], false)
+  local set_augroup = require('autoload.util').set_augroup
+
+  set_augroup('Telescope', {
+    { 'User', 'TelescopePreviewerLoaded', 'lua vim.wo.wrap, vim.wo.number = true, true' }
+  })
 
   local actions = require('telescope.actions')
   require('telescope').setup({
@@ -41,7 +40,6 @@ function config.telescope()
           width_padding = 0.08,
         }
       },
-
       mappings = {
         i = {
           ['<M-j>'] = actions.move_selection_next,
@@ -106,9 +104,17 @@ end
 function config.vim_floaterm()
   vim.g.floaterm_autoclose = 2
   vim.g.floaterm_title = 'Terminal $1/$2'
+  vim.g.floaterm_borderchars = '─│─│╭╮╯╰'
   vim.g.floaterm_width = 0.9
   vim.g.floaterm_height = 0.9
-  vim.cmd('highlight! link FloatermBorder TSFunction')
+  vim.g.floaterm_opener = 'tabe'
+
+  vim.cmd([[highlight! link FloatermBorder TSFunction]])
+
+  local set_augroup = require('autoload.util').set_augroup
+  set_augroup('vim_floaterm', {
+    { 'Colorscheme', '*', 'lua vim.cmd([[highlight! link FloatermBorder TSFunction]])' }
+  })
 end
 
 function config.git_messenger()
@@ -167,6 +173,9 @@ function config.nvim_treesitter()
         }
       }
     },
+    rainbow = {
+      enable = true
+    },
     ensure_installed = { 'lua', 'json' }
   })
 end
@@ -183,10 +192,9 @@ function config.far()
   vim.g['far#source'] = 'rg'
 end
 
-function config.zephyr_nvim()
-  vim.cmd('colorscheme zephyr')
-  vim.cmd('highlight Normal guibg=#0F111A')
-  vim.cmd('highlight NormalFloat guibg=#0F111A')
+function  config.nvcode_color_schemes()
+  vim.g.nvcode_termcolors = 256
+  vim.cmd([[colorscheme palenight]])
 end
 
 function config.nvim_bufferline()
@@ -259,152 +267,7 @@ function config.nvim_tree()
   }
 end
 
-function config.galaxyline()
-  -- REFERENCE: https://github.com/ChristianChiarulli/nvim/blob/ceb88951b034e5367e9adf7929c3dde601f76e09/lua/plugins/galaxyline-config.lua
-
-  local condition = require('galaxyline.condition')
-
-  local buffer_not_empty = function()
-    if vim.fn.empty(vim.fn.expand('%:t')) ~= 1 then
-      return true
-    end
-    return false
-  end
-
-  local checkwidth = function()
-    local squeeze_width  = vim.fn.winwidth(0) / 2
-    if squeeze_width > 40 then
-      return true
-    end
-    return false
-  end
-
-  -- https://vi.stackexchange.com/a/12294
-  local function return_highlight_term(group, term)
-    local fn = vim.fn
-    local output = fn.execute('silent! hi ' .. group)
-    local result = fn.matchstr(output, term .. [[=\zs\S*]])
-    return result == '' and 'None' or result
-  end
-
-  if not packer_plugins['nvim-lspconfig'].loaded then
-    vim.cmd([[packadd nvim-lspconfig]])
-  end
-
-  local colors = {
-    bg = return_highlight_term('StatusLine', 'guibg'),
-    fg = return_highlight_term('CursorLineNr', 'guifg'),
-    separator = return_highlight_term('Normal', 'guibg'),
-    error = '#e95678',
-    warn = '#f0c674',
-    hint = '#36d0e0',
-    info = '#42a8ed'
-  }
-
-  local separator = ' │ '
-
-  local components_left = {
-    {
-      CWD = {
-        provider = function() return vim.fn.fnamemodify(vim.fn.getcwd(), ':t') end,
-        icon = '   ',
-        separator = ' ',
-        separator_highlight = { colors.bg, colors.fg },
-        highlight = { colors.bg, colors.fg, 'bold' },
-      }
-    },
-    {
-      GitBranch = {
-        provider = 'GitBranch',
-        icon = '  ',
-        condition = condition.check_git_workspace,
-        highlight = { colors.fg, colors.bg }
-      }
-    },
-    {
-      DiagnosticError = {
-        provider = 'DiagnosticError',
-        icon = ' ',
-        highlight = { colors.error, colors.bg }
-      }
-    },
-    {
-      DiagnosticWarn = {
-        provider = 'DiagnosticWarn',
-        icon = '  ',
-        highlight = { colors.warn, colors.bg }
-      }
-    },
-    {
-      DiagnosticHint = {
-        provider = 'DiagnosticHint',
-        icon = '   ',
-        highlight = { colors.hint, colors.bg }
-      }
-    },
-    {
-      DiagnosticInfo = {
-        provider = 'DiagnosticInfo',
-        icon = '  ',
-        highlight = { colors.info, colors.bg }
-      }
-    }
-  }
-
-  local components_right = {
-    {
-      Indentation = {
-        provider = function() return '' end,
-        separator = '%{printf("%s %s", &shiftwidth, &expandtab ? (&shiftwidth == 1 ? "Space" : "Spaces") : (&shiftwidth == 1 ? "Tab" : "Tabs"))}',
-        separator_highlight = { colors.fg, colors.bg }
-      }
-    },
-    {
-      FileFormat = {
-        provider = 'FileFormat',
-        separator = ' │ ',
-        separator_highlight = { colors.separator, colors.bg },
-        highlight = { colors.fg, colors.bg }
-      }
-    },
-    {
-      LineInfo = {
-        provider = 'LineColumn',
-        separator = ' │ ',
-        separator_highlight = { colors.separator, colors.bg },
-        highlight = { colors.fg, colors.bg }
-      }
-    },
-    {
-      PerCent = {
-        provider = 'LinePercent',
-        separator = ' │',
-        separator_highlight = { colors.separator, colors.bg },
-        highlight = { colors.fg, colors.bg }
-      }
-    }
-  }
-
-  local galaxyline = require('galaxyline')
-
-  for index, value in ipairs(components_left) do
-    galaxyline.section.left[index] = value
-  end
-
-  for index, value in ipairs(components_right) do
-    galaxyline.section.right[index] = value
-  end
-end
-
 function config.nvim_compe()
-
-  vim.api.nvim_exec([[
-  augroup trigger_completion
-    autocmd!
-    autocmd InsertEnter * silent! call compe#complete()
-  augroup END
-  ]], false)
-
   require('compe').setup({
     enabled = true,
     debug = false,
@@ -436,11 +299,10 @@ function config.nvim_compe()
       -- Make sure you have the corresponding plugin installed.
       vim_lsp         = false, -- vim-lsp completion.
       vim_lsc         = false, -- vim-lsc completion.
-      vsnip           = false, -- vim-vsnip completion.
+      vsnip           = true, -- vim-vsnip completion.
       ultisnips       = false, -- UltiSnips completion.
       snippets_nvim   = false, -- snippets.nvim completion.
       nvim_treesitter = true   -- nvim-treesitter completion.
-
     }
   })
 end
@@ -454,14 +316,14 @@ function config.gitsigns()
          highlight GitSignsDelete       guifg=#FF0000 guibg=None ctermfg=Red    ctermbg=None
          highlight GitSignsTopDelete    guifg=#FF0000 guibg=None ctermfg=Red    ctermbg=None
      endfunction
-
-     call GitSignsColors()
-
-     augroup GitSignsColors
-         autocmd!
-         autocmd ColorScheme * call GitSignsColors()
-     augroup END
   ]], false)
+
+  vim.cmd([[call GitSignsColors()]])
+
+  local set_augroup = require('autoload.util').set_augroup
+  set_augroup('GitSignsColors', {
+    { 'ColorScheme', '*', 'call GitSignsColors()' }
+  })
 
   require('gitsigns').setup({
     signs = {
@@ -475,25 +337,37 @@ function config.gitsigns()
 end
 
 function config.nvim_lightbulb()
-  vim.api.nvim_exec([[
-  augroup lightbulb
-    autocmd!
-    autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()
-  augroup END
-  ]], false)
+  local set_augroup = require('autoload.util').set_augroup
+
+  set_augroup('lightbulb', {
+    { 'CursorHold,CursorHoldI', '*', [[lua require('nvim-lightbulb').update_lightbulb()]] }
+  })
 end
 
 function config.nvim_lspconfig()
   local lsp = require('lspconfig')
 
-  -- html
   -- Enable (broadcasting) snippet capability for completion
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+  -- Note: it looks like there's actually a difference between using
+  -- 'lspconfig/configs' and using 'lspconfig.configs' here, it only works when
+  -- a / is used
+  require('lspconfig/configs').emmet_ls = {
+    default_config = {
+      cmd = { 'emmet-ls', '--stdio' },
+      filetypes = { 'html', 'css' },
+      root_dir = function()
+        return vim.loop.cwd()
+      end,
+      settings = {}
+    }
+  }
+
   local language_servers = {
     clangd = {},
-    html = { capabilities = capabilities },
+    -- html = { capabilities = capabilities },
     jedi_language_server = {},
     cssls = {},
     tsserver = {},
@@ -505,16 +379,21 @@ function config.nvim_lspconfig()
           end
         }
       }
-    }
+    },
+    -- This language server is not documented in CONFIG.md, here is the link:
+    -- https://github.com/aca/emmet-ls
+    emmet_ls = { on_attach = on_attach }
   }
 
   local on_attach = function(client, bufnr)
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
       vim.api.nvim_exec([[
-      hi! link LspReferenceRead Pmenu
-      hi! link LspReferenceText Pmenu
-      hi! link LspReferenceWrite Pmenu
+      highlight! link LspReferenceRead Pmenu
+      highlight! link LspReferenceText Pmenu
+      highlight! link LspReferenceWrite Pmenu
+
+      " TODO: Find a way to adapt it to use require('autoload.util').set_augroup
       augroup lsp_document_highlight
         autocmd! * <buffer>
         autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()
@@ -548,6 +427,137 @@ function config.nvim_lspconfig()
   vim.fn.sign_define('LspDiagnosticsSignWarning', { texthl = 'LspDiagnosticsSignWarning', text = '', numhl = 'LspDiagnosticsSignWarning' })
   vim.fn.sign_define('LspDiagnosticsSignInformation', { texthl = 'LspDiagnosticsSignInformation', text = '', numhl = 'LspDiagnosticsSignInformation' })
   vim.fn.sign_define('LspDiagnosticsSignHint', { texthl = 'LspDiagnosticsSignHint', text = '', numhl = 'LspDiagnosticsSignHint' })
+end
+
+function config.lualine()
+  require('lualine').setup({
+    options = {
+      theme = 'material',
+      section_separators = {'', ''},
+      component_separators = {'│', '│'},
+      icons_enabled = true,
+    },
+    sections = {
+      lualine_a = { { 'mode', upper = true } },
+      lualine_b = { { 'branch', icon = '' }, {
+        'diff',
+        color_added = '#00FF00',
+        color_modified = '#FF7700',
+        color_removed = '#FF0000',
+        symbols = {
+          added = ' ', modified = '柳', removed = ' '
+        }
+      } },
+      lualine_c = { { 'diagnostics', sources = { 'nvim_lsp' } } },
+      lualine_x = {
+        'encoding',
+        'fileformat',
+        'filetype',
+        function()
+          local get_option = vim.api.nvim_buf_get_option
+          return (get_option(0, 'expandtab') and 'Spaces: ' or 'Tabs: ') .. get_option(0, 'shiftwidth')
+        end
+      },
+      lualine_y = { 'progress' },
+      lualine_z = { 'location' },
+    },
+    inactive_sections = {
+      lualine_a = {  },
+      lualine_b = {  },
+      lualine_c = { 'filename' },
+      lualine_x = { 'location' },
+      lualine_y = {  },
+      lualine_z = {  }
+    },
+    extensions = { }
+  })
+end
+
+function config.blamer()
+  vim.g.blamer_enabled = 1
+  vim.g.blamer_show_in_insert_modes = 0
+  vim.g.blamer_delay = 500
+  vim.g.blamer_prefix = ' '
+  vim.g.blamer_relative_time = 1
+end
+
+function config.dashboard()
+  vim.g.dashboard_default_executive = 'telescope'
+  vim.g.dashboard_custom_shortcut = {
+    book_marks         = '1',
+    change_colorscheme = '2',
+    find_file          = '3',
+    find_history       = '4',
+    find_word          = '5',
+    last_session       = '6',
+    new_file           = '7',
+  }
+  vim.g.dashboard_custom_header = {
+    ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
+    ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
+    ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
+    ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
+    ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
+    ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝'
+  }
+end
+
+function config.vim_which_key()
+  vim.g.which_key_max_size = 5
+  vim.g.which_key_align_by_seperator = 1
+  vim.g.which_key_hspace = 1
+  vim.g.which_key_use_floating_win = 0
+
+  vim.g.which_key_timeout = 100
+  vim.g.which_key_display_names = { ['<CR>'] = '↵', ['<TAB>'] = '⇆', [' '] = '␣' }
+
+  vim.g.which_key_map = {
+    ['0'] = 'which_key_ignore',
+    ['1'] = 'which_key_ignore',
+    ['2'] = 'which_key_ignore',
+    ['3'] = 'which_key_ignore',
+    ['4'] = 'which_key_ignore',
+    ['5'] = 'which_key_ignore',
+    ['6'] = 'which_key_ignore',
+    ['7'] = 'which_key_ignore',
+    ['8'] = 'which_key_ignore',
+    ['9'] = 'which_key_ignore'
+  }
+
+  vim.fn['which_key#format']('<Cmd>')
+
+  vim.fn['which_key#register']('<Space>', 'g:which_key_map')
+end
+
+-- Broken (issue: causes Neovim to have bad performance)
+-- function config.indent_blankline()
+--   vim.g.indent_blankline_buftype_exclude = { 'terminal' }
+--   vim.g.indent_blankline_filetype_exclude = {
+--     'help',
+--     'startify',
+--     'dashboard',
+--     'packer',
+--     'neogitstatus',
+--     'diff',
+--     'gitmessengerpopup',
+--     'lspinfo',
+--     'qf',
+--     'text',
+--     ''
+--   }
+--   vim.g.indent_blankline_char = '│'
+--   vim.g.indent_blankline_use_treesitter = true
+--   vim.g.indent_blankline_show_trailing_blankline_indent = false
+--   vim.g.indent_blankline_show_first_indent_level = false
+-- end
+
+function config.vim_smoothie()
+  vim.g.smoothie_update_interval = 60
+end
+
+function config.registers()
+  vim.g.registers_tab_symbol = '⇆'
+  vim.g.registers_space_symbol = '␣'
 end
 
 return config
