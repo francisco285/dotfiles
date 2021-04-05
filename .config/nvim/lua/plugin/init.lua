@@ -425,5 +425,6 @@ function(use)
   -- Database integration
   -- Github integration
   -- Wrapper for running tests
+  -- Code lens
 end
 )
