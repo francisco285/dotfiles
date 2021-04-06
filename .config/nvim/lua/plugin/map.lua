@@ -5,10 +5,10 @@ function map.telescope()
   set_map('n', '<M-;><M-;>', [[<Cmd>Telescope builtin previewer=false theme=get_dropdown<CR>]])
   set_map('n', '<M-;>:', [[<Cmd>Telescope commands theme=get_dropdown<CR>]])
   set_map('n', '<M-;>"', [[<Cmd>Telescope registers theme=get_dropdown<CR>]])
-  set_map('n', '<M-;>/', [[<Cmd>Telescope current_buffer_fuzzy_find theme=get_dropdown<CR>]])
+  set_map('n', '<M-;>/', [[<Cmd>Telescope current_buffer_fuzzy_find results_title=false preview_title=false<CR>]])
   set_map('n', '<M-;>o', [[<Cmd>Telescope vim_options theme=get_dropdown<CR>]])
   set_map('n', '<M-;>c', [[<Cmd>Telescope colorscheme theme=get_dropdown<CR>]])
-  set_map('n', '<M-;>m', [[<Cmd>Telescope marks<CR>]])
+  set_map('n', '<M-;>m', [[<Cmd>Telescope marks results_title=false preview_title=false<CR>]])
   set_map('n', '<M-;>gc', [[<Cmd>Telescope git_commits results_title=false preview_title=false<CR>]])
   set_map('n', '<M-;>gfc', [[<Cmd>Telescope git_bcommits results_title=false preview_title=false<CR>]])
   set_map('n', '<M-;>gb', [[<Cmd>Telescope git_branches previewer=false theme=get_dropdown<CR>]])
@@ -250,7 +250,7 @@ function map.lspsaga()
   -- Also implemented by nvim-lspconfig
   set_map('n', '<Leader>j', [[<Cmd>Lspsaga diagnostic_jump_next<CR>]])
   set_map('n', '<Leader>k', [[<Cmd>Lspsaga diagnostic_jump_prev<CR>]])
-  set_map('n', 'K', [[<Cmd>Lspsaga hover_doc<CR>]])
+  set_map('n', 'K', [[<Cmd>lua require('plugin.functions').lspsaga.hover_doc()<CR>]])
   set_map('n', '<Leader>a', [[<Cmd>Lspsaga code_action<CR>]])
   set_map('x', '<Leader>a', [[<Cmd>Lspsaga range_code_action<CR>]])
   set_map('i', '<C-]>', [[<Cmd>Lspsaga signature_help<CR>]])
@@ -292,6 +292,17 @@ function map.vim_vsnip()
 
   set_map('s', '<Tab>', [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>']], { expr = true })
   set_map('s', '<S-Tab>', [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], { expr = true })
+end
+
+function map.dial()
+  set_map({ 'n', 'v' }, '<C-a>', [[<Plug>(dial-increment)]])
+  set_map({ 'n', 'v' }, '<C-x>', [[<Plug>(dial-decrement)]])
+  set_map('v', 'g<C-a>', [[<Plug>(dial-increment-additional)]])
+  set_map('v', 'g<C-x>', [[<Plug>(dial-decrement-additional)]])
+end
+
+function map.switch()
+  set_map('n', '<Bslash>.', [[<Cmd>Switch<CR>]])
 end
 
 return map

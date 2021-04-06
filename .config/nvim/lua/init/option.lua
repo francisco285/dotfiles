@@ -1,7 +1,8 @@
+local util = require('autoload.util')
 local fn = vim.fn
 
--- TODO: It seems like vim.fn.expand() can be used to get a directory
--- independently of the OS, maybe it's better to use it instead.
+-- TODO: It looks like vim.fn.expand() can be used to get a directory
+-- independently of the OS, maybe it's better to use that instead.
 local function get_undodir()
   local is_windows = jit.os == "Windows"
   local separator = is_windows and "\\" or [[/]]
@@ -98,9 +99,4 @@ for option, value in pairs(options) do
   set_option(option, value)
 end
 
-vim.api.nvim_exec([[
-augroup formatoptions
-  autocmd!
-  autocmd BufEnter * lua vim.bo.formatoptions = 'cqrj'
-augroup END
-]], false)
+util.set_augroup('set_formatoptions', { { 'BufEnter', '*', [[lua vim.bo.formatoptions = 'cqrj']] } })

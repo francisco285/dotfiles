@@ -124,8 +124,8 @@ function setup.NrrwRgn()
   vim.g.nrrw_rgn_nomap_Nr = 1
 end
 
-function setup.bracey()
-  vim.g.bracey_browser_command = 'brave-browser'
+function setup.switch()
+  vim.g.switch_mapping = ''
 end
 
 return setup

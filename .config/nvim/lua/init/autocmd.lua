@@ -35,8 +35,7 @@ set_augroups({
     { 'BufWrite,BufEnter,InsertLeave', '*', [[lua require('autoload.autocmd').auto_fill_location_list()]] }
   },
 
-  smart_cursorline = {
-    { 'InsertEnter,WinLeave', '*', [[lua vim.wo.cursorline = false]] },
-    { 'InsertLeave,WinEnter', '*', [[lua vim.wo.cursorline = true]] },
+  statusline_for_plugins = {
+    { 'Filetype', 'dashboard,TelescopePrompt,NvimTree,undotree', [[lua vim.wo.statusline = vim.bo.filetype]] }
   }
 })

@@ -308,21 +308,11 @@ function config.nvim_compe()
 end
 
 function config.gitsigns()
-  vim.api.nvim_exec([[
-     function! GitSignsColors()
-         highlight GitSignsAdd          guifg=#00FF00 guibg=None ctermfg=Green  ctermbg=None
-         highlight GitSignsChange       guifg=#FF7700 guibg=None ctermfg=Yellow ctermbg=None
-         highlight GitSignsChangeDelete guifg=#0000FF guibg=None ctermfg=Blue   ctermbg=None
-         highlight GitSignsDelete       guifg=#FF0000 guibg=None ctermfg=Red    ctermbg=None
-         highlight GitSignsTopDelete    guifg=#FF0000 guibg=None ctermfg=Red    ctermbg=None
-     endfunction
-  ]], false)
-
-  vim.cmd([[call GitSignsColors()]])
+  require('plugin.functions').gitsigns.set_colors()
 
   local set_augroup = require('autoload.util').set_augroup
   set_augroup('GitSignsColors', {
-    { 'ColorScheme', '*', 'call GitSignsColors()' }
+    { 'ColorScheme', '*', [[lua require('plugin.functions').gitsigns.set_colors()]] }
   })
 
   require('gitsigns').setup({
@@ -367,7 +357,6 @@ function config.nvim_lspconfig()
 
   local language_servers = {
     clangd = {},
-    -- html = { capabilities = capabilities },
     jedi_language_server = {},
     cssls = {},
     tsserver = {},
@@ -380,6 +369,7 @@ function config.nvim_lspconfig()
         }
       }
     },
+    html = { capabilities = capabilities },
     -- This language server is not documented in CONFIG.md, here is the link:
     -- https://github.com/aca/emmet-ls
     emmet_ls = { on_attach = on_attach }
@@ -430,25 +420,36 @@ function config.nvim_lspconfig()
 end
 
 function config.lualine()
+  local function get_hl_fg(hl_name)
+    local utils = require('lualine.utils.utils')
+    return utils.extract_highlight_colors(hl_name, 'guifg')
+  end
   require('lualine').setup({
     options = {
       theme = 'material',
       section_separators = {'', ''},
       component_separators = {'│', '│'},
-      icons_enabled = true,
+      icons_enabled = true
     },
     sections = {
-      lualine_a = { { 'mode', upper = true } },
-      lualine_b = { { 'branch', icon = '' }, {
+      -- lualine_a = { { 'mode', upper = true } },
+      lualine_a = { { function() return ' ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t') end } },
+      lualine_b = { { 'branch', icon = '' }, {
         'diff',
         color_added = '#00FF00',
-        color_modified = '#FF7700',
+        color_modified = '#FFA500',
         color_removed = '#FF0000',
         symbols = {
-          added = ' ', modified = '柳', removed = ' '
+          added = '+', modified = '~', removed = '-'
         }
       } },
-      lualine_c = { { 'diagnostics', sources = { 'nvim_lsp' } } },
+      lualine_c = { {
+        'diagnostics',
+        sources = { 'nvim_lsp' },
+        color_error = '#F00000',
+        color_warn = '#FFA500',
+        color_info = '#ADD8E6'
+      } },
       lualine_x = {
         'encoding',
         'fileformat',
@@ -458,16 +459,39 @@ function config.lualine()
           return (get_option(0, 'expandtab') and 'Spaces: ' or 'Tabs: ') .. get_option(0, 'shiftwidth')
         end
       },
-      lualine_y = { 'progress' },
-      lualine_z = { 'location' },
+      lualine_y = {
+        function()
+          -- https://github.com/glepnir/galaxyline.nvim/blob/505bd8a2912f75b3c9cc439db3bd31ae514230cd/lua/galaxyline/provider_lsp.lua#L2-L16
+          local msg = 'No Active LSP'
+
+          local buf_ft = vim.api.nvim_buf_get_option(0,'filetype')
+          local clients = vim.lsp.get_active_clients()
+          if next(clients) == nil then
+            return msg
+          end
+
+          local blacklisted_clients = { emmet_ls = true }
+          for _, client in ipairs(clients) do
+            local filetypes = client.config.filetypes
+            if filetypes and vim.fn.index(filetypes,buf_ft) ~= -1 then
+              if blacklisted_clients[client.name] == nil then
+                return ' ' .. client.name
+              end
+            end
+          end
+
+          return msg
+        end
+      },
+      lualine_z = { 'location' }
     },
     inactive_sections = {
-      lualine_a = {  },
-      lualine_b = {  },
-      lualine_c = { 'filename' },
-      lualine_x = { 'location' },
-      lualine_y = {  },
-      lualine_z = {  }
+      lualine_a = { 'filename' },
+      lualine_b = { },
+      lualine_c = { },
+      lualine_x = { },
+      lualine_y = { },
+      lualine_z = { 'location' }
     },
     extensions = { }
   })
@@ -529,28 +553,6 @@ function config.vim_which_key()
   vim.fn['which_key#register']('<Space>', 'g:which_key_map')
 end
 
--- Broken (issue: causes Neovim to have bad performance)
--- function config.indent_blankline()
---   vim.g.indent_blankline_buftype_exclude = { 'terminal' }
---   vim.g.indent_blankline_filetype_exclude = {
---     'help',
---     'startify',
---     'dashboard',
---     'packer',
---     'neogitstatus',
---     'diff',
---     'gitmessengerpopup',
---     'lspinfo',
---     'qf',
---     'text',
---     ''
---   }
---   vim.g.indent_blankline_char = '│'
---   vim.g.indent_blankline_use_treesitter = true
---   vim.g.indent_blankline_show_trailing_blankline_indent = false
---   vim.g.indent_blankline_show_first_indent_level = false
--- end
-
 function config.vim_smoothie()
   vim.g.smoothie_update_interval = 60
 end
@@ -558,6 +560,10 @@ end
 function config.registers()
   vim.g.registers_tab_symbol = '⇆'
   vim.g.registers_space_symbol = '␣'
+end
+
+function config.numb()
+  require('numb').setup()
 end
 
 return config

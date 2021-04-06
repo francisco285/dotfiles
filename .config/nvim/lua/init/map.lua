@@ -179,8 +179,8 @@ function map.miscellaneous()
   -- Highlight and search ocurrences of the current word but do not make cursor
   -- jump
   -- https://stackoverflow.com/a/13682379
-  set_map('n', '<C-_>', [[:let @/='<C-R>=expand('<cword>')<CR>' <Bar> set hlsearch<CR>]], { noremap = true, silent = true })
-  set_map('n', '<M-/>', [[:let @/='\<<C-R>=expand('<cword>')<CR>\>'<CR>:set hlsearch<CR>]], { noremap = true, silent = true })
+  set_map('n', '<C-_>', [[:silent! let @/='<C-R>=expand('<cword>')<CR>' <Bar> set hlsearch<CR>]], { noremap = true, silent = true })
+  set_map('n', '<M-/>', [[:silent! let @/='\<<C-R>=expand('<cword>')<CR>\>' <Bar> set hlsearch<CR>]], { noremap = true, silent = true })
 
   -- Toggle hlsearch without actually changing the option
   set_map('n', '<CR>', [[&buftype == '' || &buftype == 'help' ? '<Cmd>let v:hlsearch = !v:hlsearch<CR>' : "<CR>"]], { noremap = true, expr = true })
