@@ -7,7 +7,9 @@ function buffer.is_empty()
 end
 
 function buffer.is_directory()
-  return vim.fn.match(vim.fn.expand('%:p'), util.get_separator() .. '$') ~= -1 or vim.fn.isdirectory(vim.fn.expand('%:p')) == -1
+  local fn = vim.fn
+  local separator = vim.fn.has('win32') == 1 and '\\' or '/'
+  return fn.match(fn.expand('%:p'), separator .. '$') ~= -1 or fn.isdirectory(fn.expand('%:p')) == -1
 end
 
 -- TODO: Use better variable names

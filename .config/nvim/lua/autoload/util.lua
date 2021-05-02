@@ -58,25 +58,11 @@ else
   util.is_windows = vim.fn.has('win32')
 end
 
--- https://github.com/wbthomason/packer.nvim/blob/6a169bec7d15d24c1d680fb75aa24a2921829442/lua/packer/util.lua#L34-L48
-function util.get_separator()
-  local separator = util.is_windows and '\\' or '/'
-  return separator
-end
-
--- https://github.com/wbthomason/packer.nvim/blob/6a169bec7d15d24c1d680fb75aa24a2921829442/lua/packer/util.lua#L34-L48
-function util.join_paths(...)
-  local separator = util.get_separator()
-
-  return table.concat({...}, separator)
-end
-
 function util.get_git_root(relative_to)
   local relative_to = relative_to or vim.fn.expand('%:p:h')
-  local sep = util.get_separator()
 
   -- https://vi.stackexchange.com/questions/20605/find-project-root-relative-to-the-active-buffer
-  local root_dir = vim.fn.finddir('.git' .. sep .. '..', relative_to .. ';')
+  local root_dir = vim.fn.finddir(vim.fn.expand('.git/..', relative_to .. ';'))
 
   return root_dir
 end

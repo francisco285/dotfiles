@@ -1,25 +1,11 @@
 local util = require('autoload.util')
 local fn = vim.fn
 
--- TODO: It looks like vim.fn.expand() can be used to get a directory
--- independently of the OS, maybe it's better to use that instead.
-local function get_undodir()
-  local is_windows = jit.os == "Windows"
-  local separator = is_windows and "\\" or [[/]]
-  local undodir = table.concat({ os.getenv("HOME"), ".cache", "nvim", "undo" }, separator)
+local undodir = fn.expand(fn.stdpath("cache") .. "/undo")
 
-  return undodir
+if fn.isdirectory(undodir) == 0 then
+  fn.mkdir(undodir, 'p')
 end
-
-local undodir = get_undodir()
-
-local function create_undodir()
-  if vim.fn.isdirectory(undodir) == 0 then
-    vim.fn.mkdir(undodir, 'p')
-  end
-end
-
-create_undodir()
 
 local options = {
   background = 'dark',

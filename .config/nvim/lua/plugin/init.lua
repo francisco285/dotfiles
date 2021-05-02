@@ -3,8 +3,7 @@ local util = require('autoload.util')
 local function packer_bootstrap()
   local cmd = vim.api.nvim_command
   local fn = vim.fn
-
-  local install_path = util.join_paths(fn.stdpath('data'), 'site', 'pack', 'packer', 'start', 'packer.nvim')
+  local install_path = fn.expand(fn.stdpath('data') .. 'site/pack/packer/start/packer.nvim')
 
   if fn.empty(fn.glob(install_path)) > 0 then
     cmd('silent !git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
