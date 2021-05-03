@@ -3,11 +3,10 @@ local util = require('autoload.util')
 local function packer_bootstrap()
   local cmd = vim.api.nvim_command
   local fn = vim.fn
-  local install_path = fn.expand(fn.stdpath('data') .. 'site/pack/packer/start/packer.nvim')
+  local install_path = fn.expand(fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim')
 
   if fn.empty(fn.glob(install_path)) > 0 then
     cmd('silent !git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
-    cmd([[packadd packer.nvim]])
     local post_sync_commands = {
       [[lua require('packer.display').quit();]],
       [[vim.cmd('silent! PackerCompile');]],
@@ -22,6 +21,8 @@ local function packer_bootstrap()
       { 'User', 'PackerComplete', '++once', '++nested', unpack(post_sync_commands) }
     })
   end
+
+  cmd([[packadd packer.nvim]])
 end
 
 packer_bootstrap()
@@ -33,6 +34,13 @@ local config = require('plugin.config')
 require('packer').init({
   display = {
     open_cmd = 'tabnew [packer]'
+  },
+  git = {
+    -- The default value is 60, which means that if a git clone is taking more
+    -- than 60 seconds to finish, the process will be killed. It is very annoying
+    -- when for some reason or another the installation process needs more time
+    -- (at the time of this writing, it is the case tested in WSL).
+    clone_timeout = false
   }
 })
 
@@ -47,7 +55,7 @@ function(use)
     use(plugin_table)
   end
 
-  custom_use('wbthomason/packer.nvim')
+  custom_use({ 'wbthomason/packer.nvim', opt = true })
 
   custom_use({
     'nvim-telescope/telescope.nvim',
