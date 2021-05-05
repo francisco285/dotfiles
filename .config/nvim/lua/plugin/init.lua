@@ -226,6 +226,23 @@ function(use)
   })
 
   custom_use({
+    'onsails/lspkind-nvim',
+    -- If kitty is executable, we assume that Neovim is running in it, and that
+    -- the method described at https://github.com/onsails/lspkind-nvim/issues/6
+    -- is being currently used (and it's working), so we don't need this plugin.
+    -- The reason we have to do that is because `symbol_map` seems to be a very
+    -- specific feature that (AFAIK) only kitty has, other terminals may have
+    -- `non-ascii font` but using it also messes up other characters.
+    -- TODO: Find a better way to deal with this. Assuming that kitty is being
+    -- used just because it's executable is innacurate.
+    cond = function()
+      if vim.fn.has('unix') and vim.fn.executable('kitty') then return false end
+      return true
+    end,
+    after = 'nvim-lspconfig'
+  })
+
+  custom_use({
     'glepnir/lspsaga.nvim',
     cmd = 'Lspsaga',
     map = map.lspsaga,
