@@ -57,6 +57,9 @@
 !.config/zathura/*
 !.config/mpv
 !.config/mpv/input.conf
+!.config/alacritty
+.config/alacritty/*
+!.config/alacritty/alacritty.yml
 
 !.config/zsh/
 .config/zsh/*
