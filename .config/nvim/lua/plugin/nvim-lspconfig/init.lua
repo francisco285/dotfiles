@@ -37,7 +37,7 @@ return {
   end,
   config = function()
     local util = require('autoload.util')
-    local lsp = require('lspconfig')
+    local lspconfig = require('lspconfig')
 
     -- Enable (broadcasting) snippet capability for completion
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -46,16 +46,18 @@ return {
     -- NOTE: it looks like there's actually a difference between using
     -- 'lspconfig/configs' and using 'lspconfig.configs' here, it only works when
     -- a / is used
-    require('lspconfig/configs').emmet_ls = {
-      default_config = {
-        cmd = { 'emmet-ls', '--stdio' },
-        filetypes = { 'html', 'css' },
-        root_dir = function()
-          return vim.loop.cwd()
-        end,
-        settings = {}
+    if not lspconfig.emmet_ls then
+      require('lspconfig/configs').emmet_ls = {
+        default_config = {
+          cmd = { 'emmet-ls', '--stdio' },
+          filetypes = { 'html', 'css' },
+          root_dir = function()
+            return vim.loop.cwd()
+          end,
+          settings = {}
+        }
       }
-    }
+    end
 
     -- List of included LSP configs:
     -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
@@ -88,7 +90,6 @@ return {
 
       -- WARN: using `vim.wo` or `vim.opt_local` here leads to: https://github.com/neovim/neovim/issues/14670
       vim.cmd([[setlocal signcolumn=yes]])
-      vim.opt_local.signcolumn = 'yes'
 
       if lsp_status_ok then lsp_status.on_attach(client, bufnr) end
       if lsp_signature_ok then
@@ -118,7 +119,11 @@ return {
             capabilities = vim.tbl_extend('keep', configs[server] or {}, lsp_status.capabilities or {}),
           })
 
-          lsp[server].setup(server_config)
+          if lspconfig[server].setup then
+            lspconfig[server].setup(server_config)
+          else
+            vim.api.nvim_err_writeln(string.format([[lspconfig['%s'].setup() failed!]], server))
+          end
         end
       end
 
@@ -136,7 +141,7 @@ return {
         server_config.on_attach = server_config.on_attach or on_attach
         server_config.capabilities = server_config.capabilities or capabilities
 
-        lsp[server].setup(server_config)
+        lspconfig[server].setup(server_config)
       end
     end
 
