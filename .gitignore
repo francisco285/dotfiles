@@ -18,6 +18,7 @@
 !.vimrc
 !.Xresources
 !.zprofile
+!.zshenv
 
 # whitelist .config (and everything inside it)
 !.config/
