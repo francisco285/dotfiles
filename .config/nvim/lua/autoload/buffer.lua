@@ -12,7 +12,6 @@ function buffer.is_directory()
   return fn.match(fn.expand('%:p'), separator .. '$') ~= -1 or fn.isdirectory(fn.expand('%:p')) == -1
 end
 
--- TODO: Use better variable names
 -- https://github.com/airblade/dotvim/blob/edad9fe8793b7c9266039b4cf85272a9b10cd9cb/vimrc#L323-L331
 function buffer.delete_hidden()
   local fn = vim.fn
@@ -32,13 +31,13 @@ function buffer.delete_hidden()
   local save_confirm = vim.o.confirm
   vim.o.confirm = false
   for _, buffer in ipairs(filtered) do
-    vim.cmd("silent! bd " .. buffer)
+    vim.cmd('silent! bd ' .. buffer)
   end
   vim.o.confirm = save_confirm
 end
 
 function buffer.set_auto_delete()
-  if buffer.is_empty() or buffer.is_directory() then
+  if (buffer.is_empty() or buffer.is_directory()) and vim.bo.buftype == '' then
     vim.cmd([[setlocal bufhidden=delete]])
   end
 end
