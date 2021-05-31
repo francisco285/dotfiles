@@ -6,6 +6,10 @@ source $HOME/.config/zsh/include/keybindings.zsh
 source $HOME/.config/zsh/include/plugins.zsh
 source $HOME/.config/zsh/include/abbreviations.zsh
 
+# NOTE: Without `compinit` the other things below may not work, such as:
+# https://www.reddit.com/r/zsh/comments/b89nru/zstyle_matcherlist_does_not_work_for_tab/
+autoload -Uz compinit && compinit
+
 # Tab completion similar to oh-my-zsh's
 # https://stackoverflow.com/a/24237590
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'

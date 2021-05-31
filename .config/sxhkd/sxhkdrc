@@ -9,17 +9,17 @@ super + semicolon
 {_, super, super + shift} + Print
 	{ \
 	$(flameshot gui --raw | xclip -selection clipboard -t image/png), \
-	$(flameshot full --path "$HOME/Pictures/Screenshots"), \
+	$(flameshot full --path "$SCREENSHOTS"), \
 	$(pin-screenshot) \
 	}
 
 # Open terminal or dropdown terminal
 super + {_, alt} + Return
-	{kitty sh -c 'tmux', $(tdrop -ma -w 70% -h 70% -x 15% -y 15% kitty)}
+	{kitty 'tmux', tdrop -ma -w 70% -h 70% -x 15% -y 15% kitty}
 
 # Open browser
-super + {b,shift + b}
-	brave-browser {'',--incognito}
+super + {b, shift + b}
+	{brave, brave --incognito}
 
 # Power menu
 super + alt + BackSpace
@@ -34,13 +34,15 @@ super + Insert
 	notify-send "📋 Clipboard contents:" "$(xclip -o -selection clipboard)"
 
 # Volume Up/Down/Mute
-super + {equal,plus,minus,underscore,m}
+super + {equal, plus, minus, underscore, m}
+# NOTE: Do not separate these commas with spaces because for some reason it
+# breaks the keybindings even though it shouldn't
 	arg={+,+,-,-,mute}; [ $arg = 'mute' ] && \
 	pactl set-sink-mute @DEFAULT_SINK@ toggle || \
 	pactl set-sink-volume @DEFAULT_SINK@ $\{arg\}5%
 
 # Brightness Up/Down
-super + {F9,F8}
+super + {F9, F8}
 	{brightness up,brightness down}
 
 # Application launcher (rofi)
@@ -61,4 +63,4 @@ super + shift + {comma, period, p}
 
 # Music
 super + shift + m
-	if [ $(pidof cmus) ]; then; notify-send "cmus is already running"; else; kitty sh -c "tmux new -s 'Music' 'cmus'"; fi
+	if [ $(pidof cmus) ]; then; notify-send "cmus is already running"; else; kitty tmux new -s 'Music' 'cd ~/Music; cmus'; fi

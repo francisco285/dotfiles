@@ -37,12 +37,18 @@ bindkey '^S' history-incremental-pattern-search-forward
 # ctrl+u deletes line content from cursor position until beggining of the line
 bindkey '^U' backward-kill-line
 
+# Use ctrl+backspace to kill word as ctrl+w is used in vi
+bindkey '^H' vi-backward-kill-word
+# If we don't want it to be like vi:
+# bindkey '^H' backward-kill-word
+
 # Open programs running in background (only seems to work when running in tmux
 # though)
 # control + z
-bindkey -s '^Z' '^[[4~^Ufg^M'
+# bindkey -s '^Z' '^[[4~^Ufg^M'
+bindkey -s '^Z' '^Ufg^M'
 # Alt + m
-bindkey -s '^[m' '^[[4~^Ufg^M'
+bindkey -s '^[m' '^Ufg^M'
 
 # Open the in-progress command inside of $EDITOR
 autoload -U edit-command-line

@@ -1,7 +1,8 @@
 # DOTFILES
+
 ## Dependencies
 
-- [Vim](https://github.com/vim/vim)
+- [AwesomeWM](https://awesomewm.org/download)
 - [Bspwm](https://github.com/baskerville/bspwm)
 - [Sxhkd](https://github.com/baskerville/sxhkd)
 - [Picom](https://github.com/yshui/picom)
@@ -28,6 +29,8 @@
 - [Delta](https://github.com/dandavison/delta)
 - [Rg (ripgrep)](https://github.com/BurntSushi/ripgrep)
 - [JetBrainsMono Nerd Font](https://www.nerdfonts.com)
+- [codicon](https://github.com/microsoft/vscode-codicons/blob/main/dist/codicon.ttf)
+- [Noto Color Emoji](https://www.google.com/get/noto/#emoji-zsye-color)
 - xset
 - [node.js](https://nodejs.org)
 - [npm](https://www.npmjs.com)
@@ -44,11 +47,8 @@
 - [i3lock-color](https://github.com/Raymo111/i3lock-color)
 - xss-lock
 - xautolock
-
-## TODO
-
-**Neovim**
-- https://github.com/marko-cerovac/material.nvim
-- https://github.com/pineapplegiant/spaceduck
-- https://github.com/pwntester/octo.nvim
-- https://github.com/aca/emmet-ls
+- [cmus](https://github.com/cmus/cmus)
+- gpick
+- [lxappearance](https://archlinux.org/packages/community/x86_64/lxappearance)
+- pavucontrol
+- [gh](https://github.com/cli/cli#installation)

@@ -1,5 +1,16 @@
 #!/bin/sh
 
+killall set-wallpaper > /dev/null
+killall picom > /dev/null
+
+picom &
+set-monitor &
+set-wallpaper &
+set-autolock &
+dunst &
+xset r rate 120 100 &
+nm-applet &
+
 pgrep -x sxhkd > /dev/null
 
 if [ $DESKTOP_SESSION = "bspwm" ]; then
@@ -8,18 +19,7 @@ if [ $DESKTOP_SESSION = "bspwm" ]; then
   sxhkd -s '/tmp/sfifo' -c $HOME/.config/bspwm/sxhkdrc &
   killall bspwm-mode > /dev/null
   bspwm-mode &
+  $HOME/.config/polybar/launch &
 else
   sxhkd &
 fi
-
-killall set-wallpaper > /dev/null
-killall picom > /dev/null
-
-picom --backend xrender &
-set-monitor &
-set-wallpaper &
-set-autolock &
-dunst &
-xset r rate 120 100 &
-$HOME/.config/polybar/launch &
-nm-applet &
