@@ -16,7 +16,8 @@ return {
         information = lsp_signs.info,
         other = ''
       },
-      use_lsp_diagnostic_signs = false
+      use_lsp_diagnostic_signs = false,
+      auto_preview = false
     })
   end,
   requires = 'kyazdani42/nvim-web-devicons'

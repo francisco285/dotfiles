@@ -1,6 +1,5 @@
 return {
   'lewis6991/gitsigns.nvim',
-  event = 'BufRead *',
   setup = function()
     local map = require('autoload.util').set_map
     map('n', ']c', [[&diff ? ']h' : '<Cmd>lua require("gitsigns").next_hunk()<CR>']], { expr = true })

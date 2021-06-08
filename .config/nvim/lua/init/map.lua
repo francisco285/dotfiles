@@ -123,9 +123,9 @@ function M.enhance()
   map('n', 'gj', [[:let _ = &lazyredraw <Bar> set lazyredraw<CR>/\%<C-R>=virtcol('.')<CR>v\S<CR>:nohl<CR>:let &lazyredraw = _<CR>]], { noremap = true, silent = true })
   map('n', 'gk', [[:let _ = &lazyredraw <Bar> set lazyredraw<CR>?\%<C-R>=virtcol('.')<CR>v\S<CR>:nohl<CR>:let &lazyredraw = _<CR>]], { noremap = true, silent = true })
 
-  -- Better j and k for wrap mode
-  map('n', 'j', [[v:count == 0 ? 'gj' : 'j']], { noremap = true, expr = true })
-  map('n', 'k', [[v:count == 0 ? 'gk' : 'k']], { noremap = true, expr = true })
+  -- Better j and k when 'wrap' is set
+  map({ 'n', 'v' }, 'j', [[v:count == 0 ? 'gj' : 'j']], { noremap = true, expr = true })
+  map({ 'n', 'v' }, 'k', [[v:count == 0 ? 'gk' : 'k']], { noremap = true, expr = true })
 
   -- Change indentation in visual mode without leaving it
   map('v', '>', [[>gv]], { noremap = true })

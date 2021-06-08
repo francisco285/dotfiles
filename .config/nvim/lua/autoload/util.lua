@@ -163,10 +163,31 @@ function M.prompt_user(opts)
 end
 
 ---@param table table
---Print table contents in the form of: key -> type -> value
-function M.print_table_contents(table)
-  for key, value in pairs(table) do
-    print(string.format('%s -> %s -> %s', key, type(value), value))
+---@param recursively boolean
+function M.print_table_contents(table, recursively)
+  if recursively then
+    local ui = vim.api.nvim_list_uis()[1]
+
+    for key, value in pairs(table) do
+      print(string.format('%s -> %s -> %s', key, type(value), value))
+      if type(value) == type({}) then
+        print(string.format('%s contents:', key))
+
+        local start_str = string.format('%s { ', key)
+        start_str = start_str .. vim.fn['repeat']('-', ui.width - #start_str - 1)
+        print(start_str)
+
+        M.print_table_contents(value, true)
+
+        local end_str = string.format('%s } ', key)
+        end_str = end_str .. vim.fn['repeat']('-', ui.width - #end_str - 1)
+        print(end_str)
+      end
+    end
+  else
+    for key, value in pairs(table) do
+      print(string.format('%s -> %s -> %s', key, type(value), value))
+    end
   end
 end
 

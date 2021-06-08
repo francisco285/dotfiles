@@ -1,3 +1,16 @@
+# vim: syntax=conf
 set statusbar-h-padding 0
 set statusbar-v-padding 0
 set selection-clipboard clipboard
+set incremental-search true
+
+map <M-f> toggle_statusbar
+
+# adjust-open Defines which auto adjustment mode should be used if a document is loaded. Possible options are "best-fit" and "width".
+set adjust-open width
+
+# highlight-color Defines the color that is used for highlighting parts of the document (e.g.: show search results)
+set highlight-color '#7aa2f7'
+
+# highlight-active-color Defines the color that is used to show the current selected highlighted element (e.g: current search result)
+set highlight-active-color '#E95E63'

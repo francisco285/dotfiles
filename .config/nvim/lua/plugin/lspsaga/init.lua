@@ -1,11 +1,10 @@
 return {
   'glepnir/lspsaga.nvim',
-  cmd = 'Lspsaga',
   setup = function()
     local map = require('autoload.util').set_map
     map('n', '<C-f>', [[<Cmd>silent! lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>]])
     map('n', '<C-b>', [[<Cmd>silent! lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>]])
-    map('n', '<Leader>vd', [[<Cmd>Lspsaga preview_definition<CR>]])
+    map('n', 'gpd', [[<Cmd>Lspsaga preview_definition<CR>]])
     map('n', '<Leader>f', [[<Cmd>Lspsaga lsp_finder<CR>]])
 
     function _G.lspsaga_hover_doc()
@@ -26,6 +25,5 @@ return {
     map('n', '<Leader>r', [[<Cmd>Lspsaga rename<CR>]])
     map('n', '<Leader>D', [[<Cmd>Lspsaga show_line_diagnostics<CR>]])
   end,
-  after = 'nvim-lspconfig',
   requires = 'neovim/nvim-lspconfig'
 }

@@ -1,6 +1,6 @@
 -- Alternative symbols
 -- This is only meant to be used as a convenient way to get other symbols, not
--- be used directly (e.g.: by using require('symbols'))
+-- to be used directly (e.g. by using require('symbols'))
 local symbols = {
   lsp = {
     diagnostics = {
@@ -54,6 +54,10 @@ local symbols = {
     removed = { '-', '', '' }
   },
   statusline = {
+    no_separators = {
+      section_separators = { left = '', right = '' },
+      component_separators = { left = '', right = '' }
+    },
     thin = {
       section_separators = { left = '│', right = '│' },
       component_separators = { left = '│', right = '│' }
@@ -81,7 +85,7 @@ local symbols = {
     mac = ''
   },
   misc = {
-    unnamed = { '⚡', '⊝', '✦', '', '┣', '┫', '' },
+    unnamed = { '⚡', '⊝', '✦', '', '┣', '┫', '', 'ஃ' },
     percentage = '',
     vertical_bar = '▍',
     letter_l = { 'ℒ',  'ℓ' },
@@ -94,13 +98,14 @@ local symbols = {
     plus = '✚',
     plus_minus = '±',
     dot = { '●', '•' },
+    square = '■',
     ok = { '', '✔', '✓', '﫠' },
     arrow_up = { '⇡', '↑' },
     arrow_right = { '➜', '➦', '❯', '➤', '', '', '▶' },
     arrow_left = '❮',
     arrow_down = { '⇣' , '↓', '', '', '▼' },
     ghost = '',
-    settings = { '⚙', '⚙️' },
+    settings = { '', '⚙', '⚙️' },
     skull = '💀',
     rocket = '🚀',
     not_exists = 'Ɇ',

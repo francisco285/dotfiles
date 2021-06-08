@@ -18,7 +18,6 @@ local function bootstrap()
       vim.cmd([[echohl None]])
       vim.cmd([[quitall!]])
     end
-    -- local packer_compiled_path = fn.empty(fn.glob(install_path)) > 0
 
     cmd('silent !git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
 
@@ -75,6 +74,7 @@ local function setup()
     git = {
       clone_timeout = false
     },
+    auto_clean = false,
     prompt_border = border
   })
 

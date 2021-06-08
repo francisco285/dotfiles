@@ -12,7 +12,7 @@ return {
     confirm = true,
     cursorline = false,
     expandtab = true,
-    fillchars = [[vert:│,eob:\ ,fold:\━,foldsep:\ ,foldopen:,foldclose:]],
+    fillchars = [[vert:│,eob:\ ,fold:\━,foldsep:\│,foldopen:,foldclose:]],
     -- foldcolumn = 'auto',
     foldenable = true,
     foldlevelstart = 99,
@@ -21,13 +21,13 @@ return {
       function MyFoldText()
         local foldstart = vim.v.foldstart
         local foldend = vim.v.foldend
-        local folddashes = vim.v.folddashes
+        -- local folddashes = vim.v.folddashes
 
         local lines_count = (foldend - foldstart) + 1
         local line = vim.fn.getline(foldstart)
-        local foldlevel = #folddashes
+        -- local foldlevel = #folddashes
 
-        return string.format('%s ━━▍ (%s ℓ) %s  ┣', line, lines_count, foldlevel)
+        return string.format('%s  (%s ℓ)  ', line, lines_count)
       end
       return 'v:lua.MyFoldText()'
     end)(),
@@ -133,13 +133,90 @@ return {
   treesitter = {
     enable_fold = true,
     setup = {
+      ensure_installed = { 'lua' },
       rainbow = { enable = true },
-      ensure_installed = { 'lua' }
+      -- Built-in Textobjects
+      -- @block.inner
+      -- @block.outer
+      -- @call.inner
+      -- @call.outer
+      -- @class.inner
+      -- @class.outer
+      -- @comment.outer
+      -- @conditional.inner
+      -- @conditional.outer
+      -- @frame.inner
+      -- @frame.outer
+      -- @function.inner
+      -- @function.outer
+      -- @loop.inner
+      -- @loop.outer
+      -- @parameter.inner
+      -- @parameter.outer
+      -- @scopename.inner
+      -- @statement.outer
+      textobjects = {
+        -- Define your own text objects mappings similar to ip (inner
+        -- paragraph) and ap (a paragraph).
+        select = {
+          enable = true,
+          keymaps = {
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['ac'] = '@class.outer',
+            ['ic'] = '@class.inner',
+            ['aC'] = '@comment.outer',
+            -- These are better handled by targets
+            -- ['ab'] = '@block.outer',
+            -- ['ib'] = '@block.inner',
+            -- ['aa'] = '@parameter.outer',
+            -- ['ia'] = '@parameter.inner',
+            ['al'] = '@loop.outer',
+            ['il'] = '@loop.inner'
+          }
+        },
+        -- Define your own mappings to swap the node under the cursor with the
+        -- next or previous one, like function parameters or arguments.
+        swap = {
+          enable = true,
+          swap_previous = { ['[a'] = '@parameter.inner' },
+          swap_next = { [']a'] = '@parameter.inner' }
+        },
+        -- Define your own mappings to jump to the next or previous text
+        -- object. This is similar to ]m, [m, ]M, [M Neovim's mappings to jump
+        -- to the next or previous function.
+        move = {
+          enable = true,
+          set_jumps = true, -- whether to set jumps in the jumplist
+          goto_next_start = {
+            ["]m"] = "@function.outer", ["]]"] = "@class.outer"
+          },
+          goto_next_end = {
+            ["]M"] = "@function.outer", ["]["] = "@class.outer"
+          },
+          goto_previous_start = {
+            ["[m"] = "@function.outer", ["[["] = "@class.outer"
+          },
+          goto_previous_end = {
+            ["[M"] = "@function.outer", ["[]"] = "@class.outer"
+          }
+        }
+      }
     }
   },
   lsp = {
     signs = { error = '', warning = '', info = '', hint = '' },
     kinds = { with_text = true, use_codicons = true, override = {} },
+    diagnostic = {
+      on_publish_diagnostics = {
+        underline = true,
+        virtual_text = {
+          spacing = 2, severity_limit = 'Warning', prefix = '●'
+        },
+        signs = true,
+        update_in_insert = false
+      }
+    },
     configs = {
       clangd = {},
       jedi_language_server = {},
@@ -189,7 +266,12 @@ return {
     colorscheme = 'tokyonight',
     style = 'thin',
     styles = {
+      no_separators = {
+        section_separators = { left = '', right = '' },
+        component_separators = { left = '', right = '' }
+      },
       thin = {
+        -- Sections should be identified by their respective highlights
         section_separators = { left = '', right = '' },
         component_separators = { left = '│', right = '│' }
       },
@@ -237,30 +319,34 @@ return {
     'telescope-fzy-native',
     'telescope-asynctasks',
     -- 'emmet-vim',
+    -- NOTE: If this PR (https://github.com/neovim/neovim/pull/13654) ever gets
+    -- merged, it has a lot of potentital to replace this plugin
     'nvim-colorizer',
     -- 'neoformat',
-    'undotree',
+    -- 'undotree',
     -- 'markdown-preview',
     'vim-floaterm',
-    'git-messenger',
-    'committia',
+    -- 'git-messenger',
+    -- 'committia',
     -- 'vimspector',
     'nvim-treesitter',
     'nvim-ts-rainbow',
-    'vista',
+    -- 'vista',
     -- 'nvim-spectre',
     'tokyonight',
     -- 'material',
     'nvim-bufferline',
     'nvim-tree',
     'nvim-lspconfig',
+    'lspsaga',
+    -- 'goto-preview', -- Experimental (may replace lspsaga's preview_definition)
     'nvim-compe',
     'lspkind-nvim',
-    'lspsaga',
+    'lsp_signature',
     'nvim-lightbulb',
     -- 'NrrwRgn',
     -- 'editorconfig-vim',
-    -- 'vim-fugitive',
+    'vim-fugitive',
     'tcomment_vim',
     -- 'vim-be-good',
     'gitsigns',
@@ -270,21 +356,21 @@ return {
     'lualine',
     -- 'codi',
     -- 'blamer',
-    'dashboard-nvim',
+    -- 'dashboard-nvim',
     'which-key',
     -- 'vim-smoothie',
     'zen-mode',
     'targets',
     'vim-sonictemplate',
     'trouble',
-    'diffview',
-    -- 'lsp-colors',
+    -- 'diffview',
+    'lsp-colors',
     -- 'HighStr',
     -- 'nvim-autopairs',
     -- 'vim-gist',
     -- 'indent-blankline',
     -- 'nvim-ts-autotag',
-    'bracey',
+    -- 'bracey',
     'nvim-bqf',
     'firenvim',
     'nvim-lspinstall',
@@ -295,9 +381,10 @@ return {
     'asyncrun',
     'asynctasks',
     -- 'nvim-scrollview',
-    'lsp_signature',
     -- 'vim-doge',
-    'vim-localvimrc'
+    'vim-localvimrc',
+    'nvim-treesitter-textobjects',
+    'gruvbox'
 
     -- Other plugins:
     -- 'yamatsum/nvim-nonicons'
@@ -310,6 +397,17 @@ return {
     -- 'AndrewRadev/linediff.vim'
     -- 'AndrewRadev/switch.vim'
 
+    -- Not tested:
+    -- 'nvim-treesitter/nvim-tree-docs' -- May replace vim-doge
+    -- 'nvim-telescope/telescope-project.nvim'
+    -- (dap) -- May replace vimspector
+      -- 'mfussenegger/nvim-dap'
+      -- 'Pocco81/DAPInstall.nvim'
+      -- 'theHamsta/nvim-dap-virtual-text'
+      -- 'rcarriga/nvim-dap-ui'
+      -- 'mfussenegger/nvim-jdtls'
+      -- 'mfussenegger/nvim-dap-python'
+
     -- TODO: Enhancement, features, and more:
     -- - Consistent signs AND highlight groups across lspconfig, trouble.nvim, lualine, etc...
     -- - Collaborative editing
@@ -321,6 +419,13 @@ return {
     --   - use('marcushwz/nvim-workbench')
     -- - LSP Enhancement
     --   - Code lens
+    --      - Maybe these links can help:
+    --        - https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_codeLens
+    --        - https://github.com/neovim/neovim/pull/13165
+    --          - More specifically this comment: https://github.com/neovim/neovim/pull/13165#issuecomment-739505204
+    --        - https://github.com/jubnzv/virtual-types.nvim/
+    --        - https://github.com/neovim/neovim/pull/14056
+    --        - https://github.com/josa42/nvim-lsp-codelenses/blob/2a29e040d0d3b7f6564a797feb644358d5069cad/lua/jg/lsp/codelenses.lua
     -- - Database integration
     --   - use('tpope/vim-dadbod')
     --   - use('kristijanhusak/vim-dadbod-ui')

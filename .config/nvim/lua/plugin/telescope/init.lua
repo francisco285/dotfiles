@@ -46,6 +46,8 @@ return {
     map('x', '<M-;>ra', [[<Cmd>Telescope lsp_range_code_actions<CR>]])
 
     map('n', '<M-;>T', '<Cmd>lua _G.telescope_sonictemplate()<CR>', {})
+
+    map('n', '<M-;><CR>', [[<Cmd>execute 'Telescope find_files prompt_title=Neovim\ Config\ Files results_title=false preview_title=false cwd=' . stdpath('config')<CR>]])
   end,
   config = function()
     local telescope = require('telescope')
@@ -127,8 +129,8 @@ return {
             ['<M-v>'] = actions.select_vertical,
             ['<C-j>'] = actions.move_selection_next,
             ['<C-k>'] = actions.move_selection_previous,
-            ['<C-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
             ['<M-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
+            ['<M-l>'] = actions.smart_send_to_loclist + actions.open_loclist,
 
             ['<C-t>'] = open_with_trouble
           },
@@ -164,6 +166,10 @@ return {
 
     function _G.telescope_sonictemplate(opts)
       opts = opts or {}
+
+      local sonictemplate = packer_plugins['vim-sonictemplate']
+      if not sonictemplate then return end
+      if not sonictemplate.loaded then require('packer').loader('vim-sonictemplate') end
 
       local templates = vim.fn['sonictemplate#complete']('', '', 0)
 

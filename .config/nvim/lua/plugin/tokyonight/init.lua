@@ -7,8 +7,8 @@ return {
     vim.g.tokyonight_colors = { bg = '#0F111A' }
     vim.g.tokyonight_dark_sidebar = false
     vim.g.tokyonight_dark_float = false
-    if O.colorscheme == 'tokyonight' then
-      vim.cmd([[colorscheme tokyonight]])
-    end
+    -- if O.colorscheme == 'tokyonight' then
+    --   vim.cmd([[colorscheme tokyonight]])
+    -- end
   end
 }

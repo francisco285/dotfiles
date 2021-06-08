@@ -50,6 +50,9 @@ return {
       use_codicons = false,
       override = {}
     },
+    diagnostic = {
+      on_publish_diagnostics = {}
+    },
     configs = {}
   },
   colorscheme = 'default',

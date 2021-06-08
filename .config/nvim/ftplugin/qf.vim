@@ -1,5 +1,5 @@
 lua << EOF
-local max_height = vim.o.lines / 4
+local max_height = math.ceil(vim.o.lines / 4)
 local amount_of_qf_entries = vim.fn.len(vim.fn.getqflist())
 
 if amount_of_qf_entries < max_height then

@@ -98,6 +98,25 @@ return {
           use_lspsaga = true
         })
       end
+
+      local function show_diagnostics_on_hover()
+        local lspsaga = packer_plugins['lspsaga.nvim']
+        local cmd
+        if lspsaga then
+          if not lspsaga.loaded then require('packer').loader('lspsaga.nvim') end
+          cmd = 'Lspsaga show_line_diagnostics'
+        else
+          cmd = 'lua vim.lsp.diagnostic.show_line_diagnostics()'
+        end
+        vim.api.nvim_exec(string.format([[
+        augroup show_diagnostics_on_hover
+          autocmd! * <buffer>
+          autocmd CursorHold <buffer> %s
+        augroup END
+        ]], cmd), false)
+      end
+
+      show_diagnostics_on_hover()
     end
 
     if packer_plugins['nvim-lspinstall'] then
@@ -171,12 +190,8 @@ return {
     -- :help vim.lsp.diagnostic.on_publish_diagnostics()
     -- https://github.com/nvim-lua/diagnostic-nvim/issues/73
     vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = true,
-      virtual_text = { prefix = '❯' },
-      signs = true,
-      update_in_insert = false
-    })
+    vim.lsp.diagnostic.on_publish_diagnostics, O.lsp.diagnostic.on_publish_diagnostics
+    )
 
     local map_strings = {
       [[lua vim.api.nvim_buf_set_keymap(0, 'n', 'q', '<Cmd>quit<CR>', {})]]

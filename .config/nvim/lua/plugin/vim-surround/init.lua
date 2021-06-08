@@ -1,4 +1,5 @@
 return {
   'tpope/vim-surround',
-  requires = 'tpope/vim-repeat'
+  event = 'BufRead *',
+  requires = { 'tpope/vim-repeat', keys = '.' }
 }

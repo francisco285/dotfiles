@@ -1,3 +1,4 @@
 return {
-  'mattn/vim-sonictemplate'
+  'mattn/vim-sonictemplate',
+  event = 'BufRead *'
 }

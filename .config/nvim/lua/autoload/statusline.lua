@@ -1,6 +1,8 @@
 -- A bunch of functions to be used for the statusline
 
-local function cwd_head()
+local M = {}
+
+function M.cwd_head()
   return ' ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
 end
 
@@ -8,7 +10,7 @@ end
 -- https://github.com/nvim-lua/lsp-status.nvim/blob/db04eeacad0d32bd9a56c83ce33a8dbd2b0cb1f9/lua/lsp-status.lua#L1-L16
 -- https://github.com/nvim-lua/lsp-status.nvim/blob/db04eeacad0d32bd9a56c83ce33a8dbd2b0cb1f9/lua/lsp-status/statusline.lua
 -- Requires 'nvim-lua/lsp-status.nvim'
-local function lsp_status()
+function M.lsp_status()
   local lsp_signs = {
     error = '', warning = '', info = '', hint = ''
   }
@@ -91,19 +93,19 @@ local function lsp_status()
   return symbol .. config.indicator_ok
 end
 
-local function trail_whitespace()
+function M.trail_whitespace()
   local trailspace_line = vim.fn.search([[\s$]], 'nw')
   return trailspace_line == 0 and '' or '␣ -> ' .. trailspace_line
 end
 
 -- Requires 'nvim-lua/lsp-status.nvim'
-local function lsp_current_function()
+function M.lsp_current_function()
   local current_function = vim.b.lsp_current_function
   return string.len(current_function or '') > 0 and '  -> ' .. current_function or ''
 end
 
 -- https://gist.github.com/hoob3rt/b200435a765ca18f09f83580a606b878#file-evil_lualine-lua-L119-L134
-local function filesize()
+function M.filesize()
   local function format_file_size(file)
     local size = vim.fn.getfsize(file)
     if size <= 0 then return '' end
@@ -121,14 +123,33 @@ local function filesize()
   return format_file_size(file)
 end
 
-local function indentation()
+function M.indentation()
   local get_option = vim.api.nvim_buf_get_option
   local indentation_type = get_option(0, 'expandtab') and 'Spaces' or 'Tabs'
   local indentation_width = get_option(0, 'shiftwidth')
   return string.format('%s: %s', indentation_type, indentation_width)
 end
 
-local function treesitter()
+function M.fileformat(opts)
+  opts = vim.tbl_deep_extend('keep', opts or {}, {
+    show_icon = false,
+    upper = false,
+    icons = { unix = '', dos = '', mac = '' }
+  })
+  local format = vim.api.nvim_buf_get_option(0, 'fileformat')
+  local icon = (opts.show_icon and opts.icons[format]) or ''
+  format = opts.upper and string.upper(format) or format
+
+  return (icon ~= '' and icon .. ' ' or '') .. format
+end
+
+function M.treesitter(opts)
+  opts = vim.tbl_deep_extend('keep', opts or {}, {
+    message = {
+      installed = 'TS ', not_installed = 'TS ', not_supported = ''
+    }
+  })
+
   local ts_parsers = require('nvim-treesitter.parsers')
 
   ts_parsers.reset_cache()
@@ -141,44 +162,40 @@ local function treesitter()
   local has_ts_parser_installed = ts_parsers.has_parser(buf_lang)
 
   if has_ts_support and has_ts_parser_installed then
-    return '🌳 TS '
+    return opts.message.installed
   elseif has_ts_support and not has_ts_parser_installed then
-    return '🌳 TS 💡'
+    return opts.message.not_installed
   else
-    return '🌳 TS '
+    return opts.message.not_supported
   end
 end
 
 -- https://github.com/glepnir/galaxyline.nvim/blob/505bd8a2912f75b3c9cc439db3bd31ae514230cd/lua/galaxyline/provider_lsp.lua#L2-L16
-local function lsp_client()
-  local msg = ''
+function M.lsp_client(opts)
+  opts = vim.tbl_deep_extend('keep', opts or {}, {
+    message = {
+      innactive = '',
+      active = '%s',
+    },
+    blacklist = { emmet_ls = true }
+  })
 
   local buf_ft = vim.api.nvim_buf_get_option(0,'filetype')
   local clients = vim.lsp.get_active_clients()
   if next(clients) == nil then
-    return msg
+    return opts.no_clients
   end
 
-  local blacklisted_clients = { emmet_ls = true }
   for _, client in ipairs(clients) do
     local filetypes = client.config.filetypes
-    if filetypes and vim.fn.index(filetypes,buf_ft) ~= -1 then
-      if blacklisted_clients[client.name] == nil then
-        return ' ' .. client.name
+    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+      if opts.blacklist[client.name] == nil then
+        return string.format(opts.message.active, client.name)
       end
     end
   end
 
-  return msg
+  return opts.message
 end
 
-return {
-  cwd_head = cwd_head,
-  lsp_status = lsp_status,
-  trail_whitespace = trail_whitespace,
-  lsp_current_function = lsp_current_function,
-  filesize = filesize,
-  indentation = indentation,
-  treesitter = treesitter,
-  lsp_client = lsp_client
-}
+return M

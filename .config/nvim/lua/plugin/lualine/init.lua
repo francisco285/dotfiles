@@ -20,7 +20,7 @@ return {
       },
       sections = {
         lualine_a = {
-          { sl_functions.cwd_head }
+          { require('autoload.statusline').cwd_head }
         },
         lualine_b = {
           { 'branch', icon = '' },
@@ -43,14 +43,25 @@ return {
             color_warn = '#FFA500',
             color_info = '#ADD8E6'
           },
-          sl_functions.lsp_current_function
+          require('autoload.statusline').lsp_current_function
         },
         lualine_x = {
           { 'o:encoding', upper = true },
-          'fileformat',
+          function()
+            -- Default fileformat component doesn't allow one to show both icon and text
+            return require('autoload.statusline').fileformat({ show_icon = true, upper = true })
+          end,
           'filetype',
-          sl_functions.indentation,
-          sl_functions.treesitter
+          require('autoload.statusline').indentation,
+          function()
+            return require('autoload.statusline').treesitter({
+              message = {
+                installed = '🌳 TS ',
+                not_installed = '🌳 TS 💡',
+                not_supported = '🌳 TS '
+              }
+            })
+          end
         },
         lualine_y = {
           sl_functions.lsp_client

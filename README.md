@@ -52,3 +52,4 @@
 - [lxappearance](https://archlinux.org/packages/community/x86_64/lxappearance)
 - pavucontrol
 - [gh](https://github.com/cli/cli#installation)
+- [ytfzf](https://github.com/pystardust/ytfzf)

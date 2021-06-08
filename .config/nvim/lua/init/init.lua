@@ -11,7 +11,7 @@ for _, plugin in pairs(O.disable_builtin_plugins) do
   vim.g['loaded_' .. plugin] = 1
 end
 
--- NOTE: Run `:checkhealth provider` to be sure everything this is working as expected
+-- NOTE: Run `:checkhealth provider` to be sure this is working as expected
 -- Avoid search if possible
 if vim.fn.executable('/usr/bin/python') then
   vim.g.python_host_prog = '/usr/bin/python'
@@ -48,5 +48,5 @@ require('plugin')
 local colorscheme = vim.fn.split(vim.fn.execute('colorscheme'), [[\n]])[1]
 
 if colorscheme == 'default' and O.colorscheme ~= 'default' then
-  vim.cmd('silent! colorscheme ' .. O.colorscheme)
+  vim.cmd('silent! autocmd VimEnter * ++once ++nested colorscheme ' .. O.colorscheme)
 end
